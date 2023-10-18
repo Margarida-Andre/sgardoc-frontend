@@ -1,0 +1,29 @@
+.errors {
+  background-color: transparent;
+  color: red;
+  border: none;
+  opacity: 0.8;
+  padding: 8px 8px 8px 0;
+  display: flex;
+  justify-content: center;
+  margin-top: 6px;
+  font-weight: 400;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.icon {
+  display: flex;
+  color: red;
+  margin-right: 0.2rem;
+}
+
+.input-error {
+  border: 1px solid #ff0000;
+}
+.input-aprove {
+  border: 1px solid #00cc00;
+}

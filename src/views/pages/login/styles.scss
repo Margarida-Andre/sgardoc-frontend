@@ -1,0 +1,106 @@
+.mb-3,
+.my-3 {
+  margin-bottom: 0rem !important;
+}
+
+.mb-4,
+.my-4 {
+  margin-top: 1.5rem;
+  margin-bottom: 0rem !important;
+}
+
+.row {
+  margin-top: 1.5rem !important;
+}
+
+.errors {
+  background-color: transparent;
+  color: red;
+  border: none;
+  opacity: 0.8;
+  display: flex;
+  justify-content: center;
+  font-weight: 400;
+  border-radius: 5px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: 6px;
+}
+
+.icon {
+  display: flex;
+  color: red;
+  margin-right: 0.2rem;
+}
+
+.input-error {
+  border: 1px solid #ff0000;
+}
+.input-aprove {
+  border: 1px solid #00cc00;
+}
+
+.inputfile {
+  display: none;
+}
+
+.label-inputfile {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1rem;
+  height: 2.938rem;
+  border-radius: 0.313rem;
+  border: none;
+  background: dodgerblue;
+  color: #fff;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-left: 1rem;
+}
+
+.upload {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 1rem 0 1rem 0;
+}
+
+.image {
+  width: 50px;
+  height: 50px;
+}
+
+.image-upload-container {
+  width: 100px;
+  height: 100px;
+}
+
+.input {
+  margin-left: 1rem;
+}
+
+.choose-file {
+  margin-left: 0.5rem;
+}
+
+.upload-container {
+  border: 1px dashed dodgerblue;
+  padding: 2rem;
+  margin: 1rem 0 1rem 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.container-button {
+  display: flex;
+  flex-direction: row;
+}
+
+.btn-upload {
+  margin-left: 0.5rem;
+}
