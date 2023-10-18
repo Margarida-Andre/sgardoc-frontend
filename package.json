@@ -80,7 +80,7 @@
     "@types/styled-components": "^5.1.13",
     "auto-changelog": "~2.2.1",
     "react-multi-select-component": "^4.2.5",
-    "react-scripts": "^4.0.3"
+    "react-scripts": "^5.0.1"
   },
   "scripts": {
     "start": "react-scripts start --openssl-legacy-provider",
