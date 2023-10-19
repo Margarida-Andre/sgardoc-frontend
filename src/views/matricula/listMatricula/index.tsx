@@ -2,19 +2,19 @@ import React, { useState } from "react";
 import { PSTable } from "../../../shared/components/Table/index";
 import { CButton, CCollapse, CCardBody, CImg } from "@coreui/react";
 import { inscricaoTableFields } from "./tableSettins/fields";
-import { InscricaoProps } from "../type";
+import { MatriculaProps } from "../type";
 import { useMatricula } from "../../../hooks/useMatricula";
 import UploadImg from "../../../assets/user-profile.png";
 import Moment from "react-moment";
 import { useHistory } from "react-router-dom";
 
-const ListMatricula: React.FC<InscricaoProps> = () => {
+const ListMatricula: React.FC<MatriculaProps> = () => {
   const { matricula } = useMatricula();
   const [details, setDetails] = useState<any[]>([]);
   const history = useHistory();
 
-  async function update({ id }: InscricaoProps) {
-    localStorage.setItem("data-inscricao", id);
+  async function update({ id }: MatriculaProps) {
+    localStorage.setItem("data-matricula", id);
     history.push(`/inscricao/edit/${id}`);
   }
 

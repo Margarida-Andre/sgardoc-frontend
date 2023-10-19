@@ -1,12 +1,11 @@
-export type InscricaoProps = {
+export type MatriculaProps = {
   id: string;
   inscricaoExameAcessoId: string | null;
   provinciaId: string;
   municipioId: string;
   estadoCivilId: string;
   generoId: string;
-  opcao1CursoId: string;
-  opcao2CursoId: string;
+  cursoId: string;
   estadoId: number;
   nome: string;
   email: string;
@@ -27,7 +26,7 @@ export type InscricaoProps = {
   actualizadoPor: string | null;
 };
 
-export type InscricaoData = Omit<InscricaoProps, "id">;
+export type MatriculaData = Omit<MatriculaProps, "id">;
 
 export type MatriculaProviderProps = {
   children: React.ReactNode;

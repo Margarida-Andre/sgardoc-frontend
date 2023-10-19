@@ -1,5 +1,5 @@
 import React, { FormEvent, useEffect, useState } from "react";
-import { InscricaoData } from "../type";
+import { MatriculaData } from "../type";
 import CIcon from "@coreui/icons-react";
 import "../styles.scss";
 import {
@@ -30,7 +30,7 @@ import { UploadCertificado } from "../upload/upload-certificado";
 import { UploadFotografia } from "../upload/upload-fotografia";
 import { UploadComprovativo } from "../upload/upload-comprovativo";
 
-const EditInscricao: React.FC<InscricaoData> = () => {
+const EditInscricao: React.FC<MatriculaData> = () => {
   const [collapsed, setCollapsed] = React.useState(true);
   //eslint-disable-next-line
   const [showElements, setShowElements] = React.useState(true);
@@ -155,7 +155,7 @@ const EditInscricao: React.FC<InscricaoData> = () => {
         criadoPor: localStorage.getItem("usuario-logado"),
         actualizadoPor: localStorage.getItem("usuario-logado"),
       });
-      
+
       history.push("/inscricoes/aprovadas");
     } catch (err) {
       const error = err as AxiosError;

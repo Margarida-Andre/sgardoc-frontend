@@ -36,6 +36,10 @@ export const InscricaoForm = Yup.object().shape({
     .required("Este é um campo obrigatório")
     .positive("O campo deve ser positivo")
     .integer("O campo deve ser um número inteiro"),
+  telefoneAlternativo: Yup.number()
+    .required("Este é um campo obrigatório")
+    .positive("O campo deve ser positivo")
+    .integer("O campo deve ser um número inteiro"),
   certificadoEnsinoMedio: Yup.string().required("Este é um campo obrigatório"),
   carregamentoFotografia: Yup.string().required("Este é um campo obrigatório"),
   comprovativoPagamento: Yup.string().required("Este é um campo obrigatório"),

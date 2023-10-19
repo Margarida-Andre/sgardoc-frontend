@@ -6,7 +6,6 @@ import {
   EditInscricao,
 } from "./views/inscricoes-exame-acesso";
 import { AddMatricula, ListMatricula } from "./views/matricula";
-
 import {
   ListUsers,
   AddUsers,

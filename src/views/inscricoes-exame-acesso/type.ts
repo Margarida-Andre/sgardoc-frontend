@@ -14,10 +14,10 @@ export type InscricaoProps = {
   dataEmissaoBi: string;
   validadeBi: string;
   arquivoIdentificacao: string;
-  carregamentoBi: string | null;
-  certificadoEnsinoMedio: string | null;
-  carregamentoFotografia: string | null;
-  comprovativoPagamento: string | null;
+  carregamentoBi: any;
+  certificadoEnsinoMedio: any;
+  carregamentoFotografia: any;
+  comprovativoPagamento: any;
   telefonePrincipal: string;
   telefoneAlternativo: string;
   nomePai: string;
@@ -30,4 +30,29 @@ export type InscricaoData = Omit<InscricaoProps, "id">;
 
 export type InscricaoProviderProps = {
   children: React.ReactNode;
+};
+
+export type ProvinciaProps = {
+  id: any;
+  designacao: string;
+};
+
+export type MunicipioProps = {
+  id: any;
+  designacao: string;
+};
+
+export type EstadoCivilProps = {
+  id: any;
+  designacao: string;
+};
+
+export type CursoProps = {
+  id: any;
+  designacao: string;
+};
+
+export type GeneroProps = {
+  id: any;
+  designacao: string;
 };

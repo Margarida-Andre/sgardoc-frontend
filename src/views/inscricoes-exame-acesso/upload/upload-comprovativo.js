@@ -9,7 +9,7 @@ import "../styles.scss";
 
 export const UploadComprovativo = () => {
   const [comprovativo, setComprovativo] = useState("");
-  const [file4, setFile4] = useState([]);
+  const [file4, setFile4] = useState("");
   const [percent4, setPercent4] = useState(0);
 
   const handleUploadPagamento = () => {
@@ -21,7 +21,7 @@ export const UploadComprovativo = () => {
       );
     }
 
-    const storageRef = ref(storage, `/files/${file4.name}`);
+    const storageRef = ref(storage, "/files");
 
     const uploadTask = uploadBytesResumable(storageRef, file4);
 

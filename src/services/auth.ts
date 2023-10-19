@@ -1,2 +1,2 @@
 export const IsAuthenticated = () =>
-  localStorage.getItem("sgardoc-instic") !== null;
+  localStorage.getItem("sgardoc-instic") !== (null || "undefined");

@@ -9,7 +9,7 @@ import "../styles.scss";
 
 export const UploadBi = () => {
   const [bi, setBi] = useState("");
-  const [file1, setFile1] = useState();
+  const [file1, setFile1] = useState("");
   const [percent1, setPercent1] = useState(0);
 
   const handleUploadBI = () => {
@@ -21,7 +21,7 @@ export const UploadBi = () => {
       );
     }
 
-    const storageRef = ref(storage, `/files/${file1.name}`);
+    const storageRef = ref(storage, "/files");
 
     const uploadTask = uploadBytesResumable(storageRef, file1);
 
@@ -34,7 +34,10 @@ export const UploadBi = () => {
 
         setPercent1(percent);
       },
-      (err) => console.log(err),
+      (err) => {
+        Swal.fire("Ops!", "Não existe nenhum arquivo seleccionado!", "error");
+        console.log(err);
+      },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
           setBi(url);

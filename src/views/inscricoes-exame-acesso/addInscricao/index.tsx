@@ -1,5 +1,13 @@
-import React, { useState } from "react";
-import { InscricaoProps, InscricaoData } from "../type";
+import React, { useEffect, useState } from "react";
+import {
+  InscricaoProps,
+  InscricaoData,
+  CursoProps,
+  GeneroProps,
+  EstadoCivilProps,
+  ProvinciaProps,
+  MunicipioProps,
+} from "../type";
 import { InscricaoForm } from "../validations";
 import CIcon from "@coreui/icons-react";
 import { MdOutlineError } from "react-icons/md";
@@ -18,14 +26,14 @@ import {
   CRow,
   CSelect,
 } from "@coreui/react";
-import { useProvincia } from "src/hooks/useProvincia";
+//import { useProvincia } from "src/hooks/useProvincia";
 import { useHistory } from "react-router-dom";
 import { AxiosError } from "axios";
 import Swal from "sweetalert2";
-import { useMunicipio } from "src/hooks/useMunicipio";
-import { useEstadoCivil } from "src/hooks/useEstadoCivil";
-import { useGenero } from "src/hooks/useGenero";
-import { useCurso } from "src/hooks/useCurso";
+//import { useMunicipio } from "src/hooks/useMunicipio";
+//import { useEstadoCivil } from "src/hooks/useEstadoCivil";
+//import { useGenero } from "src/hooks/useGenero";
+//import { useCurso } from "src/hooks/useCurso";
 import { UploadBi } from "../upload/upload-bi";
 import { UploadCertificado } from "../upload/upload-certificado";
 import { UploadFotografia } from "../upload/upload-fotografia";
@@ -63,17 +71,92 @@ const AddInscricao: React.FC<InscricaoProps> = ({
   const [showElements, setShowElements] = React.useState(true);
   const history = useHistory();
 
-  const { provincia } = useProvincia();
-  const { municipio } = useMunicipio();
-  const { estadoCivil } = useEstadoCivil();
-  const { genero } = useGenero();
-  const { curso } = useCurso();
+  const [provincia, setProvincia] = useState<ProvinciaProps[]>([]);
+  const [municipio, setMunicipio] = useState<MunicipioProps[]>([]);
+  const [estadoCivil, setEstadoCivil] = useState<EstadoCivilProps[]>([]);
+  const [genero, setGenero] = useState<GeneroProps[]>([]);
+  const [curso, setCurso] = useState<CursoProps[]>([]);
 
-  const bi = localStorage.getItem("firebase-bi");
-  const certificado = localStorage.getItem("firebase-certificado");
-  const fotografia = localStorage.getItem("firebase-fotografia");
-  const comprovativo = localStorage.getItem("firebase-comprovativo");
+  const bi = () => {
+    if (localStorage.getItem("firebase-bi") === null) {
+      return "vazio";
+    } else {
+      return localStorage.getItem("firebase-bi");
+    }
+  };
+
+  const certificado = () => {
+    if (localStorage.getItem("firebase-certificado") === null) {
+      return "vazio";
+    } else {
+      return localStorage.getItem("firebase-certificado");
+    }
+  };
+
+  const fotografia = () => {
+    if (localStorage.getItem("firebase-fotografia") === null) {
+      return "../../../assets/user-profile.png";
+    } else {
+      return localStorage.getItem("firebase-fotografia");
+    }
+  };
+
+  const comprovativo = () => {
+    if (localStorage.getItem("firebase-comprovativo") === null) {
+      return "vazio";
+    } else {
+      return localStorage.getItem("firebase-comprovativo");
+    }
+  };
+
   const [inscricao, setInscricao] = useState<InscricaoProps[]>([]);
+
+  useEffect(() => {
+    try {
+      api.get("/cursoAll").then((response) => setCurso(response.data));
+    } catch (err) {
+      const error = err as AxiosError;
+      Swal.fire("Ops!", error.message, "error");
+    }
+  }, []);
+
+  useEffect(() => {
+    try {
+      api
+        .get("/estadoCivilAll")
+        .then((response) => setEstadoCivil(response.data));
+    } catch (err) {
+      const error = err as AxiosError;
+      Swal.fire("Ops!", error.message, "error");
+    }
+  }, []);
+
+  useEffect(() => {
+    try {
+      api.get("/generoAll").then((response) => setGenero(response.data));
+    } catch (err) {
+      const error = err as AxiosError;
+      Swal.fire("Ops!", error.message, "error");
+    }
+  }, []);
+
+  useEffect(() => {
+    try {
+      api.get("/provinciaAll").then((response) => setProvincia(response.data));
+    } catch (err) {
+      const error = err as AxiosError;
+      Swal.fire("Ops!", error.message, "error");
+    }
+  }, []);
+
+  useEffect(() => {
+    try {
+      api.get("/municipioAll").then((response) => setMunicipio(response.data));
+    } catch (err) {
+      const error = err as AxiosError;
+      Swal.fire("Ops!", error.message, "error");
+    }
+  }, []);
 
   async function handleCreateNewRegister({
     provinciaId,
@@ -130,13 +213,6 @@ const AddInscricao: React.FC<InscricaoProps> = ({
       });
       Swal.fire("Inscrito (a)!", "Inscrição feita com sucesso", "success");
       setInscricao([...inscricao, result.data]);
-      api
-        .get("/inscricoesAprovadas")
-        .then((response) => setInscricao(response.data));
-      localStorage.removeItem("firebase-bi");
-      localStorage.removeItem("firebase-certificado");
-      localStorage.removeItem("firebase-fotografia");
-      localStorage.removeItem("firebase-comprovativo");
       history.push("/inscricoes/aprovadas");
     } catch (err) {
       const error = err as AxiosError;
@@ -197,10 +273,10 @@ const AddInscricao: React.FC<InscricaoProps> = ({
                   dataEmissaoBi: "",
                   validadeBi: "",
                   arquivoIdentificacao: "",
-                  carregamentoBi: bi,
-                  certificadoEnsinoMedio: certificado,
-                  carregamentoFotografia: fotografia,
-                  comprovativoPagamento: comprovativo,
+                  carregamentoBi: bi(),
+                  certificadoEnsinoMedio: certificado(),
+                  carregamentoFotografia: fotografia(),
+                  comprovativoPagamento: comprovativo(),
                   telefonePrincipal: "",
                   telefoneAlternativo: "",
                   nomePai: "",
@@ -209,7 +285,7 @@ const AddInscricao: React.FC<InscricaoProps> = ({
                   actualizadoPor: localStorage.getItem("usuario-logado"),
                 }}
                 onSubmit={(values) => {
-                  handleCreateNewRegister(values);
+                  console.log(values);
                 }}
                 validationSchema={InscricaoForm}
               >
@@ -721,7 +797,7 @@ const AddInscricao: React.FC<InscricaoProps> = ({
                     <CButton
                       size="sm"
                       color="info"
-                      onClick={handleCreateNewRegister}
+                      onClick={() => handleCreateNewRegister(values)}
                     >
                       <CIcon name="cil-scrubber" /> Inscrever Estudante
                     </CButton>

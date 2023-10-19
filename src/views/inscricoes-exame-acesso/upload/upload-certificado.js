@@ -9,7 +9,7 @@ import "../styles.scss";
 
 export const UploadCertificado = () => {
   const [certificado, setCertificado] = useState("");
-  const [file2, setFile2] = useState();
+  const [file2, setFile2] = useState("");
   const [percent2, setPercent2] = useState(0);
 
   const handleUploadCertificado = () => {
@@ -21,7 +21,7 @@ export const UploadCertificado = () => {
       );
     }
 
-    const storageRef = ref(storage, `/files/${file2.name}`);
+    const storageRef = ref(storage, "/files");
 
     const uploadTask = uploadBytesResumable(storageRef, file2);
 

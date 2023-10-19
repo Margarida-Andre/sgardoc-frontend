@@ -1,17 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { PSTable } from "../../../shared/components/Table/index";
 import { CButton, CCollapse, CCardBody, CImg } from "@coreui/react";
 import { inscricaoTableFields } from "./tableSettins/fields";
 import { InscricaoProps } from "../type";
-import { useInscricao } from "../../../hooks/useInscricao";
+//import { useInscricao } from "../../../hooks/useInscricao";
 import UploadImg from "../../../assets/user-profile.png";
 import Moment from "react-moment";
 import { useHistory } from "react-router-dom";
+import api from "src/services/api";
+import { AxiosError } from "axios";
+import Swal from "sweetalert2";
 
 const ListInscricao: React.FC<InscricaoProps> = () => {
-  const { inscricao } = useInscricao();
+  const [inscricao, setInscricao] = useState<InscricaoProps[]>([]);
   const [details, setDetails] = useState<any[]>([]);
   const history = useHistory();
+
+  useEffect(() => {
+    try {
+      api
+        .get("/inscricoesAprovadas")
+        .then((response) => setInscricao(response.data));
+    } catch (err) {
+      const error = err as AxiosError;
+      Swal.fire("Ops!", error.message, "error");
+    }
+  }, []);
 
   async function update({ id }: InscricaoProps) {
     localStorage.setItem("data-inscricao", id);
@@ -53,9 +67,11 @@ const ListInscricao: React.FC<InscricaoProps> = () => {
               >
                 <CImg
                   src={
-                    item.carregamentoFotografia
-                      ? item.carregamentoFotografia
-                      : UploadImg
+                    item.carregamentoFotografia === "" ||
+                    item.carregamentoFotografia ===
+                      "../../../assets/user-profile.png"
+                      ? UploadImg
+                      : item.carregamentoFotografia
                   }
                   className="c-avatar-img"
                   alt="photo"
@@ -105,11 +121,11 @@ const ListInscricao: React.FC<InscricaoProps> = () => {
                   </CButton>
                   <CButton
                     size="sm"
-                    color="info"
+                    color="danger"
                     className="ml-1"
                     onClick={() => matricula(item)}
                   >
-                    Matricular
+                    Matricular Estudante
                   </CButton>
                 </CCardBody>
 
@@ -193,9 +209,61 @@ const ListInscricao: React.FC<InscricaoProps> = () => {
                         className="text-muted"
                         style={{ fontWeight: "bold", marginRight: "5px" }}
                       >
-                        Telefone alternativo:
+                        Criado por:
                       </span>
-                      <span>{item.telefoneAlternativo}</span>
+                      <span>{item.criadoPor}</span>
+                    </div>
+
+                    <div className="text-muted">
+                      <span
+                        className="text-muted"
+                        style={{ fontWeight: "bold", marginRight: "5px" }}
+                      >
+                        Actualizado por:
+                      </span>
+                      <span>{item.actualizadoPor}</span>
+                    </div>
+
+                    <div className="text-muted">
+                      <span
+                        className="text-muted"
+                        style={{ fontWeight: "bold", marginRight: "5px" }}
+                      >
+                        Última actualização:
+                      </span>
+                      <Moment format="DD/MM/YYYY">{item.createdAt}</Moment>
+                    </div>
+                  </div>
+                  <br />
+                  <br />
+                  <h6
+                    className="text-muted"
+                    style={{
+                      fontWeight: "bold",
+                      textDecoration: "underline",
+                    }}
+                  >
+                    Opções de cursos escolhidos{" "}
+                  </h6>
+                  <div className="lh-base" style={{ fontSize: "0.9rem" }}>
+                    <div className="text-muted">
+                      <span
+                        className="text-muted"
+                        style={{ fontWeight: "bold", marginRight: "5px" }}
+                      >
+                        Opção 1:
+                      </span>
+                      <span>{item.opcao1CursoId}</span>
+                    </div>
+
+                    <div className="text-muted">
+                      <span
+                        className="text-muted"
+                        style={{ fontWeight: "bold", marginRight: "5px" }}
+                      >
+                        Opção 2:
+                      </span>
+                      <span>{item.opcao2CursoId}</span>
                     </div>
                   </div>
                 </CCardBody>

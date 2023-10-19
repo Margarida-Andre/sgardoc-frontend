@@ -21,7 +21,7 @@ export const UploadFotografia = () => {
       );
     }
 
-    const storageRef = ref(storage, `/files/${file3.name}`);
+    const storageRef = ref(storage, "/files");
 
     const uploadTask = uploadBytesResumable(storageRef, file3);
 
