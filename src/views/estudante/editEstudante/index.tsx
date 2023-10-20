@@ -1,5 +1,5 @@
 import React, { FormEvent, useEffect, useState } from "react";
-import { InscricaoData } from "../type";
+import { EstudanteData } from "../type";
 import CIcon from "@coreui/icons-react";
 import "../styles.scss";
 import {
@@ -30,7 +30,7 @@ import { UploadCertificado } from "../upload/upload-certificado";
 import { UploadFotografia } from "../upload/upload-fotografia";
 import { UploadComprovativo } from "../upload/upload-comprovativo";
 
-const EditInscricao: React.FC<InscricaoData> = () => {
+const EditEstudante: React.FC<EstudanteData> = () => {
   const [collapsed, setCollapsed] = React.useState(true);
   //eslint-disable-next-line
   const [showElements, setShowElements] = React.useState(true);
@@ -55,10 +55,14 @@ const EditInscricao: React.FC<InscricaoData> = () => {
   const [dataEmissaoBi, setDataEmissaoBi] = useState("");
   const [validadeBi, setValidadeBi] = useState("");
   const [arquivoIdentificacao, setArquivoIdentificacao] = useState("");
-  const [carregamentoBi, setCarregamentoBi] = useState("");
-  const [certificadoEnsinoMedio, setCertificadoEnsinoMedio] = useState("");
-  const [carregamentoFotografia, setCarregamentoFotografia] = useState("");
-  const [comprovativoPagamento, setComprovativoPagamento] = useState("");
+  // const [carregamentoBi, setCarregamentoBi] = useState("");
+  // const [certificadoEnsinoMedio, setCertificadoEnsinoMedio] = useState("");
+  // const [carregamentoFotografia, setCarregamentoFotografia] = useState("");
+  //  const [comprovativoPagamento, setComprovativoPagamento] = useState("");
+  const bi = localStorage.getItem("firebase-bi");
+  const certificado = localStorage.getItem("firebase-certificado");
+  const fotografia = localStorage.getItem("firebase-fotografia");
+  const comprovativo = localStorage.getItem("firebase-comprovativo");
   const [telefonePrincipal, setTelefonePrincipal] = useState("");
   const [telefoneAlternativo, setTelefoneAlternativo] = useState("");
   const [nomePai, setNomePai] = useState("");
@@ -112,10 +116,10 @@ const EditInscricao: React.FC<InscricaoData> = () => {
           setDataEmissaoBi(dataFormatadaEmissao);
           setValidadeBi(dataFormatadaValidade);
           setArquivoIdentificacao(result.arquivoIdentificacao);
-          setCarregamentoBi(result.carregamentoBi);
-          setCertificadoEnsinoMedio(result.certificadoEnsinoMedio);
-          setCarregamentoFotografia(result.carregamentoFotografia);
-          setComprovativoPagamento(result.comprovativoPagamento);
+          // setCarregamentoBi(result.carregamentoBi);
+          // setCertificadoEnsinoMedio(result.certificadoEnsinoMedio);
+          //  setCarregamentoFotografia(result.carregamentoFotografia);
+          //  setComprovativoPagamento(result.comprovativoPagamento);
           setTelefonePrincipal(result.telefonePrincipal);
           setTelefoneAlternativo(result.telefoneAlternativo);
           setNomePai(result.nomePai);
@@ -144,10 +148,10 @@ const EditInscricao: React.FC<InscricaoData> = () => {
         dataEmissaoBi,
         validadeBi,
         arquivoIdentificacao,
-        carregamentoBi: carregamentoBi,
-        certificadoEnsinoMedio: certificadoEnsinoMedio,
-        carregamentoFotografia: carregamentoFotografia,
-        comprovativoPagamento: comprovativoPagamento,
+        carregamentoBi: bi,
+        certificadoEnsinoMedio: certificado,
+        carregamentoFotografia: fotografia,
+        comprovativoPagamento: comprovativo,
         telefonePrincipal,
         telefoneAlternativo,
         nomePai,
@@ -155,7 +159,7 @@ const EditInscricao: React.FC<InscricaoData> = () => {
         criadoPor: localStorage.getItem("usuario-logado"),
         actualizadoPor: localStorage.getItem("usuario-logado"),
       });
-      
+
       history.push("/inscricoes/aprovadas");
     } catch (err) {
       const error = err as AxiosError;
@@ -247,7 +251,7 @@ const EditInscricao: React.FC<InscricaoData> = () => {
 
                   <CFormGroup row>
                     <CCol xs="12" md="6">
-                      <CLabel htmlFor="nome">Nome</CLabel>
+                      <CLabel htmlFor="nome">Nome Completo</CLabel>
                       <CInput
                         id="nome"
                         name="nome"
@@ -567,4 +571,4 @@ const EditInscricao: React.FC<InscricaoData> = () => {
   );
 };
 
-export default EditInscricao;
+export default EditEstudante;

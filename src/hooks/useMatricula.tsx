@@ -1,18 +1,18 @@
 import React, { useState, useEffect, useContext, createContext } from "react";
 import {
   MatriculaProviderProps,
-  InscricaoProps,
-  InscricaoData,
+  MatriculaProps,
+  MatriculaData,
 } from "../views/matricula/type";
 import Swal from "sweetalert2";
 import { AxiosError } from "axios";
 import { api } from "../services/api";
 
 type MatriculaContextData = {
-  matricula: InscricaoProps[];
-  createMatricula: (data: InscricaoData) => Promise<void>;
-  deleteInscricao: (data: InscricaoData) => Promise<void>;
-  updateInscricao: (data: InscricaoData) => Promise<void>;
+  matricula: MatriculaProps[];
+  createMatricula: (data: MatriculaData) => Promise<void>;
+  deleteInscricao: (data: MatriculaData) => Promise<void>;
+  updateMatricula: (data: MatriculaData) => Promise<void>;
 };
 
 const MatriculaContext = createContext<MatriculaContextData>(
@@ -20,7 +20,7 @@ const MatriculaContext = createContext<MatriculaContextData>(
 );
 
 export function MatriculaProvider({ children }: MatriculaProviderProps) {
-  const [matricula, setMatricula] = useState<InscricaoProps[]>([]);
+  const [matricula, setMatricula] = useState<MatriculaProps[]>([]);
 
   useEffect(() => {
     try {
@@ -33,23 +33,24 @@ export function MatriculaProvider({ children }: MatriculaProviderProps) {
     }
   }, []);
 
-  async function createMatricula(data: InscricaoData) {
-    const result = await api.post("/matriculaCreate", data);
+  async function createMatricula(data: MatriculaData) {
+    const id = localStorage.getItem("code-inscricao");
+    const result = await api.post(`/matriculaCreate/${id}`, data);
     Swal.fire("Inscrito (a)!", "Matrícula feita com sucesso", "success");
     setMatricula([...matricula, result.data]);
     api
-      .get("/inscricoesAprovadas")
+      .get("/matriculasAprovadas")
       .then((response) => setMatricula(response.data));
     console.log(result.data);
   }
 
-  async function updateInscricao(data: InscricaoData) {
-    const id = localStorage.getItem("data-inscricao");
-    const result = await api.patch(`/inscricaoUpdate/${id}`, data);
-    Swal.fire("Editado!", "Inscrição editada com sucesso", "success");
+  async function updateMatricula(data: MatriculaData) {
+    const id = localStorage.getItem("data-matricula");
+    const result = await api.patch(`/matriculaUpdate/${id}`, data);
+    Swal.fire("Editado!", "Matrícula editada com sucesso", "success");
     setMatricula([...matricula, result.data]);
     api
-      .get("/inscricoesAprovadas")
+      .get("/matriculasAprovadas")
       .then((response) => setMatricula(response.data));
     console.log(result.data);
   }
@@ -71,7 +72,7 @@ export function MatriculaProvider({ children }: MatriculaProviderProps) {
 
   return (
     <MatriculaContext.Provider
-      value={{ matricula, createMatricula, updateInscricao, deleteInscricao }}
+      value={{ matricula, createMatricula, updateMatricula, deleteInscricao }}
     >
       {children}
     </MatriculaContext.Provider>

@@ -5,8 +5,8 @@ import {
   AddInscricao,
   EditInscricao,
 } from "./views/inscricoes-exame-acesso";
-import { AddMatricula, ListMatricula } from "./views/matricula";
-
+import { AddMatricula, ListMatricula, EditMatricula } from "./views/matricula";
+import { AddEstudante, ListEstudante, EditEstudante } from "./views/estudante";
 import {
   ListUsers,
   AddUsers,
@@ -54,6 +54,28 @@ const routes = [
     path: "/matricula/add",
     name: "Matrícula",
     component: AddMatricula,
+  },
+  {
+    path: "/matricula/edit",
+    name: "Matricula",
+    component: EditMatricula,
+  },
+
+  //Estudantes
+  {
+    path: "/estudantes",
+    name: "Estudante",
+    component: ListEstudante,
+  },
+  {
+    path: "/estudante/add",
+    name: "Estudante",
+    component: AddEstudante,
+  },
+  {
+    path: "/estudante/edit",
+    name: "Estudante",
+    component: EditEstudante,
   },
 
   //User

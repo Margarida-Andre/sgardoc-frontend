@@ -1,5 +1,5 @@
 import ListMatricula from "./listMatricula";
 import AddMatricula from "./addMatricula";
-import EditInscricao from "./editInscricao";
+import EditMatricula from "./editMatricula";
 
-export { ListMatricula, AddMatricula, EditInscricao };
+export { ListMatricula, AddMatricula, EditMatricula };
