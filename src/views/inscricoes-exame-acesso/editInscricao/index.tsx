@@ -251,7 +251,7 @@ const EditInscricao: React.FC<InscricaoData> = () => {
 
                   <CFormGroup row>
                     <CCol xs="12" md="6">
-                      <CLabel htmlFor="nome">Nome</CLabel>
+                      <CLabel htmlFor="nome">Nome Completo</CLabel>
                       <CInput
                         id="nome"
                         name="nome"

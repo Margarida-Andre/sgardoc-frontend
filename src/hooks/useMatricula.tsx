@@ -12,7 +12,7 @@ type MatriculaContextData = {
   matricula: MatriculaProps[];
   createMatricula: (data: MatriculaData) => Promise<void>;
   deleteInscricao: (data: MatriculaData) => Promise<void>;
-  updateInscricao: (data: MatriculaData) => Promise<void>;
+  updateMatricula: (data: MatriculaData) => Promise<void>;
 };
 
 const MatriculaContext = createContext<MatriculaContextData>(
@@ -44,13 +44,13 @@ export function MatriculaProvider({ children }: MatriculaProviderProps) {
     console.log(result.data);
   }
 
-  async function updateInscricao(data: MatriculaData) {
-    const id = localStorage.getItem("data-inscricao");
-    const result = await api.patch(`/inscricaoUpdate/${id}`, data);
-    Swal.fire("Editado!", "Inscrição editada com sucesso", "success");
+  async function updateMatricula(data: MatriculaData) {
+    const id = localStorage.getItem("data-matricula");
+    const result = await api.patch(`/matriculaUpdate/${id}`, data);
+    Swal.fire("Editado!", "Matrícula editada com sucesso", "success");
     setMatricula([...matricula, result.data]);
     api
-      .get("/inscricoesAprovadas")
+      .get("/matriculasAprovadas")
       .then((response) => setMatricula(response.data));
     console.log(result.data);
   }
@@ -72,7 +72,7 @@ export function MatriculaProvider({ children }: MatriculaProviderProps) {
 
   return (
     <MatriculaContext.Provider
-      value={{ matricula, createMatricula, updateInscricao, deleteInscricao }}
+      value={{ matricula, createMatricula, updateMatricula, deleteInscricao }}
     >
       {children}
     </MatriculaContext.Provider>

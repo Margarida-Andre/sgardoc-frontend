@@ -23,12 +23,12 @@ import Swal from "sweetalert2";
 import { UploadComprovativo } from "../upload/upload-comprovativo";
 import { CursoProps } from "src/views/inscricoes-exame-acesso/type";
 
-const AddMatricula: React.FC<MatriculaData> = () => {
+const EditMatricula: React.FC<MatriculaData> = () => {
   const [collapsed, setCollapsed] = React.useState(true);
   //eslint-disable-next-line
   const [showElements, setShowElements] = React.useState(true);
   const history = useHistory();
-  const { createMatricula } = useMatricula();
+  const { updateMatricula } = useMatricula();
   const [curso, setCurso] = useState<CursoProps[]>([]);
 
   const [provinciaId, setProvinciaId] = useState("");
@@ -46,6 +46,7 @@ const AddMatricula: React.FC<MatriculaData> = () => {
   const [carregamentoBi, setCarregamentoBi] = useState("");
   const [certificadoEnsinoMedio, setCertificadoEnsinoMedio] = useState("");
   const [carregamentoFotografia, setCarregamentoFotografia] = useState("");
+  const [inscricaoExameAcessoId, setInscricaoExameAcessoId] = useState("");
 
   const comprovativo = () => {
     if (localStorage.getItem("firebase-comprovativo") === null) {
@@ -76,9 +77,9 @@ const AddMatricula: React.FC<MatriculaData> = () => {
 
   useEffect(() => {
     async function getInscricao() {
-      const id = localStorage.getItem("code-inscricao");
+      const id = localStorage.getItem("data-matricula");
       await api
-        .get(`/inscricao/${id}`)
+        .get(`/matricula/${id}`)
         .then((response) => response.data)
         .then((result) => {
           let resultDataNascimento = new Date(result.dataNascimento);
@@ -104,6 +105,7 @@ const AddMatricula: React.FC<MatriculaData> = () => {
             adicionaZero(resultValidadeBI.getMonth() + 1).toString() +
             "-" +
             adicionaZero(resultValidadeBI.getDate().toString());
+          setInscricaoExameAcessoId(result.inscricaoExameAcessoId);
           setProvinciaId(result.provinciaId);
           setMunicipioId(result.municipioId);
           setEstadoCivilId(result.estadoCivilId);
@@ -129,11 +131,11 @@ const AddMatricula: React.FC<MatriculaData> = () => {
     getInscricao();
   }, []);
 
-  async function handleCreateNewMatricula(event: FormEvent) {
+  async function handleEditMatricula(event: FormEvent) {
     event.preventDefault();
     try {
-      await createMatricula({
-        inscricaoExameAcessoId: localStorage.getItem("code-inscricao"),
+      await updateMatricula({
+        inscricaoExameAcessoId: inscricaoExameAcessoId,
         provinciaId: provinciaId,
         municipioId: municipioId,
         estadoCivilId: estadoCivilId,
@@ -158,7 +160,7 @@ const AddMatricula: React.FC<MatriculaData> = () => {
         criadoPor: localStorage.getItem("usuario-logado"),
         actualizadoPor: localStorage.getItem("usuario-logado"),
       });
-      Swal.fire("Matriculado (a)!", "Matrícula feita com sucesso", "success");
+      Swal.fire("Editado (a)!", "Matrícula editada com sucesso", "success");
       history.push("/matriculas/aprovadas");
     } catch (err) {
       const error = err as AxiosError;
@@ -183,7 +185,7 @@ const AddMatricula: React.FC<MatriculaData> = () => {
                   fontSize: "1rem",
                 }}
               >
-                Faça aqui as matrículas
+                Edita aqui as matrículas
                 <div className="card-header-actions">
                   <CButton
                     color="link"
@@ -203,8 +205,7 @@ const AddMatricula: React.FC<MatriculaData> = () => {
                 </div>
               </CCardHeader>
               <CCardBody>
-                <form onSubmit={handleCreateNewMatricula}>
-                  <h6>Completar Matrícula</h6>
+                <form onSubmit={handleEditMatricula}>
                   <CFormGroup row>
                     <CCol xs="12" md="14">
                       <CLabel htmlFor="nome">Nome Completo</CLabel>
@@ -248,7 +249,7 @@ const AddMatricula: React.FC<MatriculaData> = () => {
                   <br />
                   <div>
                     <CButton type="submit" size="sm" color="info">
-                      <CIcon name="cil-scrubber" /> Matricular Estudante
+                      <CIcon name="cil-scrubber" /> Editar Matricula
                     </CButton>
                     <CButton
                       type="submit"
@@ -270,4 +271,4 @@ const AddMatricula: React.FC<MatriculaData> = () => {
   );
 };
 
-export default AddMatricula;
+export default EditMatricula;

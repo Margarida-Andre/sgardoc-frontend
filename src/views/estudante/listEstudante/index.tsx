@@ -1,39 +1,40 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { PSTable } from "../../../shared/components/Table/index";
 import { CButton, CCollapse, CCardBody, CImg } from "@coreui/react";
 import { inscricaoTableFields } from "./tableSettins/fields";
-import { MatriculaProps } from "../type";
+import { EstudanteProps } from "../type";
+//import { useInscricao } from "../../../hooks/useInscricao";
 import UploadImg from "../../../assets/user-profile.png";
 import Moment from "react-moment";
 import { useHistory } from "react-router-dom";
 import api from "src/services/api";
-import Swal from "sweetalert2";
 import { AxiosError } from "axios";
+import Swal from "sweetalert2";
 
-const ListMatricula: React.FC<MatriculaProps> = () => {
-  const [matricula, setMatricula] = useState<MatriculaProps[]>([]);
+const ListEstudante: React.FC<EstudanteProps> = () => {
+  const [inscricao, setInscricao] = useState<EstudanteProps[]>([]);
   const [details, setDetails] = useState<any[]>([]);
   const history = useHistory();
 
   useEffect(() => {
     try {
       api
-        .get("/matriculasAprovadas")
-        .then((response) => setMatricula(response.data));
+        .get("/inscricoesAprovadas")
+        .then((response) => setInscricao(response.data));
     } catch (err) {
       const error = err as AxiosError;
       Swal.fire("Ops!", error.message, "error");
     }
   }, []);
 
-  async function update({ id }: MatriculaProps) {
-    localStorage.setItem("data-matricula", id);
-    history.push(`/matricula/edit/${id}`);
+  async function update({ id }: EstudanteProps) {
+    localStorage.setItem("data-inscricao", id);
+    history.push(`/inscricao/edit/${id}`);
   }
 
-  async function createEstudante({ id }: MatriculaProps) {
-    localStorage.setItem("data-matricula", id);
-    history.push(`/estudante/add/${id}`);
+  async function matricula({ id }: EstudanteProps) {
+    localStorage.setItem("code-inscricao", id);
+    history.push(`/matricula/add/${id}`);
   }
 
   const toggleDetails = (index: any) => {
@@ -50,13 +51,13 @@ const ListMatricula: React.FC<MatriculaProps> = () => {
   return (
     <>
       <PSTable
-        title="Matrículas"
-        refresh={matricula}
-        data={matricula}
+        title="Inscrições de Exame de Acesso"
+        refresh={inscricao}
+        data={inscricao}
         loading={false}
         fields={inscricaoTableFields}
         itemsPerPage={5}
-        linkAddNewRow="/matricula/add"
+        linkAddNewRow="/inscricao/add"
         scopedSlots={{
           carregamentoFotografia: (item: any) => (
             <td>
@@ -66,9 +67,11 @@ const ListMatricula: React.FC<MatriculaProps> = () => {
               >
                 <CImg
                   src={
-                    item.carregamentoFotografia
-                      ? item.carregamentoFotografia
-                      : UploadImg
+                    item.carregamentoFotografia === "" ||
+                    item.carregamentoFotografia ===
+                      "../../../assets/user-profile.png"
+                      ? UploadImg
+                      : item.carregamentoFotografia
                   }
                   className="c-avatar-img"
                   alt="photo"
@@ -120,9 +123,9 @@ const ListMatricula: React.FC<MatriculaProps> = () => {
                     size="sm"
                     color="danger"
                     className="ml-1"
-                    onClick={() => createEstudante(item)}
+                    onClick={() => matricula(item)}
                   >
-                    Criar Estudante
+                    Matricular Estudante
                   </CButton>
                 </CCardBody>
 
@@ -240,7 +243,7 @@ const ListMatricula: React.FC<MatriculaProps> = () => {
                       textDecoration: "underline",
                     }}
                   >
-                    Opção de curso escolhida{" "}
+                    Opções de cursos escolhidos{" "}
                   </h6>
                   <div className="lh-base" style={{ fontSize: "0.9rem" }}>
                     <div className="text-muted">
@@ -248,9 +251,19 @@ const ListMatricula: React.FC<MatriculaProps> = () => {
                         className="text-muted"
                         style={{ fontWeight: "bold", marginRight: "5px" }}
                       >
-                        Curso:
+                        Opção 1:
                       </span>
-                      <span>{item.cursoId}</span>
+                      <span>{item.opcao1CursoId}</span>
+                    </div>
+
+                    <div className="text-muted">
+                      <span
+                        className="text-muted"
+                        style={{ fontWeight: "bold", marginRight: "5px" }}
+                      >
+                        Opção 2:
+                      </span>
+                      <span>{item.opcao2CursoId}</span>
                     </div>
                   </div>
                 </CCardBody>
@@ -328,4 +341,4 @@ const ListMatricula: React.FC<MatriculaProps> = () => {
   );
 };
 
-export default ListMatricula;
+export default ListEstudante;
