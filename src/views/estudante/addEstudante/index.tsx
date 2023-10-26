@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, CSSProperties } from "react";
 import {
   CursoProps,
   EstudanteProps,
@@ -34,8 +34,9 @@ import Swal from "sweetalert2";
 //import { useGenero } from "src/hooks/useGenero";
 //import { useCurso } from "src/hooks/useCurso";
 import api from "src/services/api";
+import ScaleLoader from "react-spinners/ScaleLoader";
 
-const AddInscricao: React.FC<EstudanteProps> = ({
+const AddEstudante: React.FC<EstudanteProps> = ({
   matriculaId,
   usuarioId,
   cursoId,
@@ -50,14 +51,18 @@ const AddInscricao: React.FC<EstudanteProps> = ({
   const [collapsed, setCollapsed] = React.useState(true);
   //eslint-disable-next-line
   const [showElements, setShowElements] = React.useState(true);
+  let [loading, setLoading] = useState(false);
   const history = useHistory();
 
   const [grau, setGrau] = useState<GrauProps[]>([]);
   const [turma, setTurma] = useState<TurmaProps[]>([]);
   const [turno, setTurno] = useState<TurnoProps[]>([]);
   const [curso, setCurso] = useState<CursoProps[]>([]);
-
+  const [nome, setNome] = useState("");
+  const [email, setEmail] = useState("");
+  const [numeroBi, setNumeroBi] = useState("");
   const [estudante, setEstudante] = useState<EstudanteProps[]>([]);
+  const codeMatricula = localStorage.getItem("code-matricula");
 
   useEffect(() => {
     try {
@@ -68,14 +73,17 @@ const AddInscricao: React.FC<EstudanteProps> = ({
     }
   }, []);
 
-  useEffect(() => {
-    try {
-      api.get("/grauAcademicoAll").then((response) => setGrau(response.data));
-    } catch (err) {
-      const error = err as AxiosError;
-      Swal.fire("Ops!", error.message, "error");
-    }
-  }, []);
+  function onSelectCurso(id: any) {
+    api
+      .get(`/grauAcademico/${id}`)
+      .then((response) => setGrau(response.data.grauAcademico));
+  }
+
+  function onSelectGrau(id: any) {
+    api
+      .get(`/turma/grauAcademico/${id}`)
+      .then((response) => setTurma(response.data.turma));
+  }
 
   useEffect(() => {
     try {
@@ -95,6 +103,31 @@ const AddInscricao: React.FC<EstudanteProps> = ({
     }
   }, []);
 
+  useEffect(() => {
+    async function getMatricula() {
+      await api
+        .get(`/matricula/${codeMatricula}`)
+        .then((response) => response.data)
+        .then((result) => {
+          setNome(result.nome);
+          setEmail(result.email);
+          setNumeroBi(result.numeroBi);
+          console.log(result);
+        });
+    }
+    getMatricula();
+  }, [codeMatricula]);
+
+  
+  const override: CSSProperties = {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "100vh",
+    borderColor: "#39f",
+  };
+
   async function handleCreateNewEstudante({
     matriculaId,
     usuarioId,
@@ -108,10 +141,21 @@ const AddInscricao: React.FC<EstudanteProps> = ({
     actualizadoPor,
   }: EstudanteData) {
     try {
-      const id = localStorage.getItem("code-estudante");
-      const result = await api.post(`/estudanteCreate/${id}`, {
-        matriculaId,
-        usuarioId,
+      const responseUser = await api.post(
+        "/usuarioCreate/af0bbaf0-39f3-4192-8d4f-f13412bf17b1",
+        {
+          nome: nome,
+          email: email,
+          numeroProcesso,
+          senha: numeroBi,
+          criadoPor: localStorage.getItem("usuario-logado"),
+          actualizadoPor: localStorage.getItem("usuario-logado"),
+        }
+      );
+      setLoading(true);
+      const result = await api.post(`/estudanteCreate/${codeMatricula}`, {
+        matriculaId: codeMatricula,
+        usuarioId: responseUser.data.usuarioCreate.id,
         cursoId,
         grauAcademicoId,
         turmaId,
@@ -121,9 +165,10 @@ const AddInscricao: React.FC<EstudanteProps> = ({
         criadoPor,
         actualizadoPor,
       });
+      setLoading(false);
       Swal.fire("Estudante!", "Estudante criado (a) com sucesso", "success");
       setEstudante([...estudante, result.data]);
-      history.push("/inscricoes/aprovadas");
+      history.push("/estudantes/list");
     } catch (err) {
       const error = err as AxiosError;
       Swal.fire("Ops!", "Ocorreu um erro, tente novamente", "error");
@@ -137,6 +182,15 @@ const AddInscricao: React.FC<EstudanteProps> = ({
 
   return (
     <CRow>
+       {loading ? (
+        <ScaleLoader
+          color="#39f"
+          loading={loading}
+          cssOverride={override}
+          aria-label="Loading Spinner"
+          data-testid="loader"
+        />
+      ) : (
       <CCol xs="12">
         <CFade timeout={300} in={showElements} unmountOnExit={true}>
           <CCard>
@@ -194,6 +248,50 @@ const AddInscricao: React.FC<EstudanteProps> = ({
                 }) => (
                   <>
                     <CFormGroup row>
+                      <CCol xs="12" md="14">
+                        <CLabel htmlFor="nome">Nome Completo</CLabel>
+                        <CInput
+                          id="nome"
+                          name="nome"
+                          autoComplete="nome"
+                          value={nome}
+                          onChange={(e) =>
+                            setNome((e.target as HTMLInputElement).value)
+                          }
+                          disabled
+                        />
+                      </CCol>
+                    </CFormGroup>
+                    <CFormGroup row>
+                      <CCol xs="12" md="6">
+                        <CLabel htmlFor="email">Email</CLabel>
+                        <CInput
+                          id="email"
+                          name="email"
+                          autoComplete="email"
+                          value={email}
+                          onChange={(e) =>
+                            setEmail((e.target as HTMLInputElement).value)
+                          }
+                          disabled
+                        />
+                      </CCol>
+
+                      <CCol xs="12" md="6">
+                        <CLabel htmlFor="senha">Senha</CLabel>
+                        <CInput
+                          id="senha"
+                          name="senha"
+                          autoComplete="senha"
+                          value={numeroBi}
+                          onChange={(e) =>
+                            setNumeroBi((e.target as HTMLInputElement).value)
+                          }
+                          disabled
+                        />
+                      </CCol>
+                    </CFormGroup>
+                    <CFormGroup row>
                       <CCol xs="12" md="6">
                         <CLabel htmlFor="cursoId">Selecciona um curso</CLabel>
                         <CSelect
@@ -201,9 +299,14 @@ const AddInscricao: React.FC<EstudanteProps> = ({
                           name="cursoId"
                           value={values.cursoId}
                           onBlur={handleBlur("cursoId")}
-                          onChange={handleChange("cursoId")}
+                          onChange={(e) => {
+                            handleChange(e);
+                            onSelectCurso(
+                              (e.target as HTMLSelectElement).value
+                            );
+                          }}
                           className={errors.cursoId ? "input-error" : "none"}
-                          autoComplete="provinciaId"
+                          autoComplete="cursoId"
                         >
                           <option value="0">
                             Por favor, selecciona um curso
@@ -233,11 +336,14 @@ const AddInscricao: React.FC<EstudanteProps> = ({
                           name="grauAcademicoId"
                           value={values.grauAcademicoId}
                           onBlur={handleBlur("grauAcademicoId")}
-                          onChange={handleChange("grauAcademicoId")}
+                          onChange={(e) => {
+                            handleChange(e);
+                            onSelectGrau((e.target as HTMLInputElement).value);
+                          }}
                           className={
                             errors.grauAcademicoId ? "input-error" : "none"
                           }
-                          autoComplete="nome"
+                          autoComplete="grauAcademicoId"
                         >
                           <option value="0">
                             Por favor, seleccione um grau acadêmico
@@ -392,8 +498,9 @@ const AddInscricao: React.FC<EstudanteProps> = ({
           </CCard>
         </CFade>
       </CCol>
+      )}
     </CRow>
   );
 };
 
-export default AddInscricao;
+export default AddEstudante;
