@@ -2,35 +2,35 @@ import React, { useState, useEffect } from "react";
 import { PSTable } from "../../../shared/components/Table/index";
 import { CButton, CCollapse, CCardBody } from "@coreui/react";
 import { inscricaoTableFields } from "./tableSettins/fields";
-import { EstudanteProps } from "../type";
+import { TurmaProps } from "../type";
 import Moment from "react-moment";
 import { useHistory } from "react-router-dom";
 import api from "src/services/api";
 import { AxiosError } from "axios";
 import Swal from "sweetalert2";
 
-const ListEstudante: React.FC<EstudanteProps> = () => {
-  const [estudante, setEstudante] = useState<EstudanteProps[]>([]);
+const ListTurma: React.FC<TurmaProps> = () => {
+  const [turma, setTurma] = useState<TurmaProps[]>([]);
   const [details, setDetails] = useState<any[]>([]);
   const history = useHistory();
 
   useEffect(() => {
     try {
-      api.get("/estudanteAll").then((response) => setEstudante(response.data));
+      api.get("/turmaAll").then((response) => setTurma(response.data));
     } catch (err) {
       const error = err as AxiosError;
       Swal.fire("Ops!", error.message, "error");
     }
   }, []);
 
-  async function update({ id }: EstudanteProps) {
-    localStorage.setItem("code-estudante", id);
-    history.push(`/estudante/edit/${id}`);
+  async function update({ id }: TurmaProps) {
+    localStorage.setItem("code-turma", id);
+    history.push(`/turma/edit/${id}`);
   }
 
-  async function matricula({ id }: EstudanteProps) {
-    localStorage.setItem("code-inscricao", id);
-    history.push(`/matricula/add/${id}`);
+  async function verEstudante({ id }: TurmaProps) {
+    localStorage.setItem("code-turma", id);
+    history.push(`/turma/estudantes/list/${id}`);
   }
 
   const toggleDetails = (index: any) => {
@@ -47,14 +47,24 @@ const ListEstudante: React.FC<EstudanteProps> = () => {
   return (
     <>
       <PSTable
-        title="Estudantes"
-        refresh={estudante}
-        data={estudante}
+        title="Turmas"
+        refresh={turma}
+        data={turma}
         loading={true}
         fields={inscricaoTableFields}
         itemsPerPage={5}
-        linkAddNewRow="/estudante/add"
+        linkAddNewRow="/turma/add"
         scopedSlots={{
+          inicioAnoLectivo: (item: any) => (
+            <td>
+              <Moment format="DD/MM/YYYY">{item.inicioAnoLectivo}</Moment>
+            </td>
+          ),
+          finalAnoLectivo: (item: any) => (
+            <td>
+              <Moment format="DD/MM/YYYY">{item.finalAnoLectivo}</Moment>
+            </td>
+          ),
           actions: (item: any) => {
             return (
               <>
@@ -93,9 +103,9 @@ const ListEstudante: React.FC<EstudanteProps> = () => {
                     size="sm"
                     color="danger"
                     className="ml-1"
-                    onClick={() => matricula(item)}
+                    onClick={() => verEstudante(item)}
                   >
-                    Ver Matrícula
+                    Ver Estudantes
                   </CButton>
                 </CCardBody>
               </CCollapse>
@@ -107,4 +117,4 @@ const ListEstudante: React.FC<EstudanteProps> = () => {
   );
 };
 
-export default ListEstudante;
+export default ListTurma;

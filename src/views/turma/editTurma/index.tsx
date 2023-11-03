@@ -1,7 +1,7 @@
 import React, { FormEvent, useEffect, useState } from "react";
 import {
   CursoProps,
-  EstudanteData,
+  TurmaData,
   GrauProps,
   TurmaProps,
   TurnoProps,
@@ -26,12 +26,12 @@ import { useHistory } from "react-router-dom";
 import { AxiosError } from "axios";
 import Swal from "sweetalert2";
 
-const EditEstudante: React.FC<EstudanteData> = () => {
+const EditTurma: React.FC<TurmaData> = () => {
   const [collapsed, setCollapsed] = React.useState(true);
   //eslint-disable-next-line
   const [showElements, setShowElements] = React.useState(true);
   const history = useHistory();
-  const codeEstudante = localStorage.getItem("code-estudante");
+  const codeEstudante = localStorage.getItem("code-turma");
 
   const [grau, setGrau] = useState<GrauProps[]>([]);
   const [turma, setTurma] = useState<TurmaProps[]>([]);
@@ -318,4 +318,4 @@ const EditEstudante: React.FC<EstudanteData> = () => {
   );
 };
 
-export default EditEstudante;
+export default EditTurma;

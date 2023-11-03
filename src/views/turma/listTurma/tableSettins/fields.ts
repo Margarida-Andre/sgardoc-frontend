@@ -1,21 +1,9 @@
 export const inscricaoTableFields = [
   {
-    key: "carregamentoFotografia",
-    label: "Fotografia",
-    icon: "cil-people",
+    key: "designacao",
+    label: "Designação",
     _style: {
-      width: "6%",
-
-      backgroundColor: "#39f",
-      color: "white",
-      padding: "0.5rem",
-    },
-  },
-  {
-    key: "nome",
-    label: "Nome",
-    _style: {
-      width: "30%",
+      width: "10%",
       backgroundColor: "#39f",
       color: "white",
       padding: "0.5rem",
@@ -27,8 +15,13 @@ export const inscricaoTableFields = [
     _style: { width: "20%", backgroundColor: "#39f", color: "white" },
   },
   {
-    key: "numeroProcesso",
-    label: "Processo",
+    key: "inicioAnoLectivo",
+    label: "Início do Ano Lectivo",
+    _style: { width: "10%", backgroundColor: "#39f", color: "white" },
+  },
+  {
+    key: "finalAnoLectivo",
+    label: "Fim do Ano Lectivo",
     _style: { width: "10%", backgroundColor: "#39f", color: "white" },
   },
   {
@@ -44,11 +37,6 @@ export const inscricaoTableFields = [
   {
     key: "turnoId",
     label: "Turno",
-    _style: { width: "15%", backgroundColor: "#39f", color: "white" },
-  },
-  {
-    key: "turmaId",
-    label: "Turma",
     _style: { width: "15%", backgroundColor: "#39f", color: "white" },
   },
   {

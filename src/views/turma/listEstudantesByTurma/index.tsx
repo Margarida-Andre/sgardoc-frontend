@@ -2,21 +2,24 @@ import React, { useState, useEffect } from "react";
 import { PSTable } from "../../../shared/components/Table/index";
 import { CButton, CCollapse, CCardBody } from "@coreui/react";
 import { inscricaoTableFields } from "./tableSettins/fields";
-import { EstudanteProps } from "../type";
+import { EstudanteProps } from "../../estudante/type";
 import Moment from "react-moment";
 import { useHistory } from "react-router-dom";
 import api from "src/services/api";
 import { AxiosError } from "axios";
 import Swal from "sweetalert2";
 
-const ListEstudante: React.FC<EstudanteProps> = () => {
-  const [estudante, setEstudante] = useState<EstudanteProps[]>([]);
+const ListEstudantes: React.FC<EstudanteProps> = () => {
+  const [estudantes, setEstudantes] = useState<EstudanteProps[]>([]);
   const [details, setDetails] = useState<any[]>([]);
   const history = useHistory();
 
   useEffect(() => {
     try {
-      api.get("/estudanteAll").then((response) => setEstudante(response.data));
+      const codeTurma = localStorage.getItem("code-turma");
+      api
+        .get(`/estudantesTurma/${codeTurma}`)
+        .then((response) => setEstudantes(response.data.estudante));
     } catch (err) {
       const error = err as AxiosError;
       Swal.fire("Ops!", error.message, "error");
@@ -48,8 +51,8 @@ const ListEstudante: React.FC<EstudanteProps> = () => {
     <>
       <PSTable
         title="Estudantes"
-        refresh={estudante}
-        data={estudante}
+        refresh={estudantes}
+        data={estudantes}
         loading={true}
         fields={inscricaoTableFields}
         itemsPerPage={5}
@@ -107,4 +110,4 @@ const ListEstudante: React.FC<EstudanteProps> = () => {
   );
 };
 
-export default ListEstudante;
+export default ListEstudantes;

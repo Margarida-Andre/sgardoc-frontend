@@ -26,7 +26,7 @@ const _nav = [
       {
         _tag: "CSidebarNavItem",
         name: "Estudantes",
-        to: "/students/list",
+        to: "/estudantes/list",
       },
       {
         _tag: "CSidebarNavItem",
@@ -37,11 +37,6 @@ const _nav = [
         _tag: "CSidebarNavItem",
         name: "Secretários",
         to: "/students/list",
-      },
-      {
-        _tag: "CSidebarNavItem",
-        name: "DEI",
-        to: "/dei/list",
       },
     ],
   },
@@ -56,7 +51,7 @@ const _nav = [
   {
     _tag: "CSidebarNavItem",
     name: "Turmas",
-    to: "/profile/list",
+    to: "/turmas/list",
     icon: "cil-puzzle",
   },
 

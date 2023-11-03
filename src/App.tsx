@@ -8,13 +8,6 @@ import {
 } from "react-router-dom";
 import ConfigRoutes from "./views/pages/config/routes";
 import GlobalStyles from "./global";
-import { InscricaoProvider } from "./hooks/useInscricao";
-import { ProvinciaProvider } from "./hooks/useProvincia";
-import { MunicipioProvider } from "./hooks/useMunicipio";
-import { EstadoCivilProvider } from "./hooks/useEstadoCivil";
-import { GeneroProvider } from "./hooks/useGenero";
-import { CursoProvider } from "./hooks/useCurso";
-import { MatriculaProvider } from "./hooks/useMatricula";
 import { IsAuthenticated } from "./services/auth";
 import "@coreui/coreui/dist/css/coreui.min.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -69,35 +62,18 @@ class App extends Component {
     return (
       <>
         <GlobalStyles />
-        <MatriculaProvider>
-        <CursoProvider>
-          <GeneroProvider>
-            <EstadoCivilProvider>
-              <MunicipioProvider>
-                <ProvinciaProvider>
-                  <InscricaoProvider>
-                    <HashRouter>
-                      <React.Suspense fallback={loading}>
-                        <Switch>
-                          <PrivateRoute
-                            path="/config"
-                            component={ConfigRoutes}
-                          />
-                          <Route exact path="/login" component={Login} />
-                          <Route exact path="/register" component={Register} />
-                          <Route exact path="/404" component={Page404} />
-                          <Route exact path="/500" component={Page500} />
-                          <PrivateRoute path="/" component={TheLayout} />
-                        </Switch>
-                      </React.Suspense>
-                    </HashRouter>
-                  </InscricaoProvider>
-                </ProvinciaProvider>
-              </MunicipioProvider>
-            </EstadoCivilProvider>
-          </GeneroProvider>
-        </CursoProvider>
-        </MatriculaProvider>
+        <HashRouter>
+          <React.Suspense fallback={loading}>
+            <Switch>
+              <PrivateRoute path="/config" component={ConfigRoutes} />
+              <Route exact path="/login" component={Login} />
+              <Route exact path="/register" component={Register} />
+              <Route exact path="/404" component={Page404} />
+              <Route exact path="/500" component={Page500} />
+              <PrivateRoute path="/" component={TheLayout} />
+            </Switch>
+          </React.Suspense>
+        </HashRouter>
       </>
     );
   }

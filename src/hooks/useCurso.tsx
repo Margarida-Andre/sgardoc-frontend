@@ -3,7 +3,7 @@ import Swal from "sweetalert2";
 import { AxiosError } from "axios";
 import { api } from "../services/api";
 
-type CursoProps = {
+export type CursoProps = {
   id: number;
   designacao: string;
 };
