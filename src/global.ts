@@ -1,3 +1,4 @@
+import { CSSProperties } from "react";
 import { createGlobalStyle } from "styled-components";
 
 export default createGlobalStyle`
@@ -16,3 +17,12 @@ export default createGlobalStyle`
   }
  
 `;
+
+export const override: CSSProperties = {
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "center",
+  alignItems: "center",
+  height: "100vh",
+  borderColor: "#39f",
+};

@@ -14,6 +14,9 @@ import {
 import React, { FC, useState } from "react";
 import { Link } from "react-router-dom";
 import { TableProps } from "./types";
+import { ExportToExcel } from "../ExportExcel";
+import { HiOutlineRefresh } from "react-icons/hi";
+import { IoIosAddCircleOutline } from "react-icons/io";
 
 const PSTable: FC<TableProps> = (
   {
@@ -115,12 +118,14 @@ const PSTable: FC<TableProps> = (
                         margin: "0 0.5rem",
                       }}
                     >
+                      <ExportToExcel apiData={data} fileName={title} />
                       <CButton
                         type="button"
                         color="warning"
                         className="my-2 my-sm-0"
                         onClick={refresh}
                       >
+                        <HiOutlineRefresh size={16} />
                         Refresh
                       </CButton>
 
@@ -135,7 +140,8 @@ const PSTable: FC<TableProps> = (
                           color="success"
                           className="my-2 my-sm-0"
                         >
-                          Adicionar Novo
+                          <IoIosAddCircleOutline size={20} />
+                          Adicionar
                         </CButton>
                       </Link>
                     </div>

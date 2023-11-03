@@ -1,5 +1,5 @@
 import React, { FormEvent, useEffect, useState } from "react";
-import { MatriculaData } from "../type";
+import { MatriculaData, MatriculaProps } from "../type";
 import CIcon from "@coreui/icons-react";
 import "../styles.scss";
 import {
@@ -16,7 +16,6 @@ import {
   CSelect,
 } from "@coreui/react";
 import api from "../../../services/api";
-import { useMatricula } from "../../../hooks/useMatricula";
 import { useHistory } from "react-router-dom";
 import { AxiosError } from "axios";
 import Swal from "sweetalert2";
@@ -28,7 +27,7 @@ const EditMatricula: React.FC<MatriculaData> = () => {
   //eslint-disable-next-line
   const [showElements, setShowElements] = React.useState(true);
   const history = useHistory();
-  const { updateMatricula } = useMatricula();
+  const [matricula, setMatricula] = useState<MatriculaProps[]>([]);
   const [curso, setCurso] = useState<CursoProps[]>([]);
 
   const [provinciaId, setProvinciaId] = useState("");
@@ -134,7 +133,8 @@ const EditMatricula: React.FC<MatriculaData> = () => {
   async function handleEditMatricula(event: FormEvent) {
     event.preventDefault();
     try {
-      await updateMatricula({
+      const id = localStorage.getItem("data-matricula");
+      const result = await api.patch(`/matriculaUpdate/${id}`, {
         inscricaoExameAcessoId: inscricaoExameAcessoId,
         provinciaId: provinciaId,
         municipioId: municipioId,
@@ -161,6 +161,7 @@ const EditMatricula: React.FC<MatriculaData> = () => {
         actualizadoPor: localStorage.getItem("usuario-logado"),
       });
       Swal.fire("Editado (a)!", "Matrícula editada com sucesso", "success");
+      setMatricula([...matricula, result.data]);
       history.push("/matriculas/aprovadas");
     } catch (err) {
       const error = err as AxiosError;

@@ -1,5 +1,5 @@
 import React, { FormEvent, useEffect, useState } from "react";
-import { InscricaoData } from "../type";
+import { InscricaoData, InscricaoProps } from "../type";
 import CIcon from "@coreui/icons-react";
 import "../styles.scss";
 import {
@@ -16,7 +16,6 @@ import {
   CSelect,
 } from "@coreui/react";
 import api from "../../../services/api";
-import { useInscricao } from "../../../hooks/useInscricao";
 import { useHistory } from "react-router-dom";
 import { useMunicipio } from "../../../hooks/useMunicipio";
 import { useProvincia } from "../../../hooks/useProvincia";
@@ -35,7 +34,7 @@ const EditInscricao: React.FC<InscricaoData> = () => {
   //eslint-disable-next-line
   const [showElements, setShowElements] = React.useState(true);
   const history = useHistory();
-  const { updateInscricao } = useInscricao();
+  const [inscricao, setInscricao] = useState<InscricaoProps[]>([]);
   const { provincia } = useProvincia();
   const { municipio } = useMunicipio();
   const { estadoCivil } = useEstadoCivil();
@@ -133,7 +132,8 @@ const EditInscricao: React.FC<InscricaoData> = () => {
   async function handleUpdateInscricao(event: FormEvent) {
     event.preventDefault();
     try {
-      await updateInscricao({
+      const id = localStorage.getItem("data-inscricao");
+      const result = await api.patch(`/inscricaoUpdate/${id}`, {
         provinciaId,
         municipioId,
         estadoCivilId,
@@ -159,7 +159,8 @@ const EditInscricao: React.FC<InscricaoData> = () => {
         criadoPor: localStorage.getItem("usuario-logado"),
         actualizadoPor: localStorage.getItem("usuario-logado"),
       });
-
+      Swal.fire("Editado!", "Inscrição editada com sucesso", "success");
+      setInscricao([...inscricao, result.data]);
       history.push("/inscricoes/aprovadas");
     } catch (err) {
       const error = err as AxiosError;

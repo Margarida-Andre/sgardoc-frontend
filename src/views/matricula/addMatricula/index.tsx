@@ -1,5 +1,5 @@
 import React, { FormEvent, useEffect, useState } from "react";
-import { MatriculaData } from "../type";
+import { MatriculaData, MatriculaProps } from "../type";
 import CIcon from "@coreui/icons-react";
 import "../styles.scss";
 import {
@@ -16,7 +16,6 @@ import {
   CSelect,
 } from "@coreui/react";
 import api from "../../../services/api";
-import { useMatricula } from "../../../hooks/useMatricula";
 import { useHistory } from "react-router-dom";
 import { AxiosError } from "axios";
 import Swal from "sweetalert2";
@@ -28,7 +27,7 @@ const AddMatricula: React.FC<MatriculaData> = () => {
   //eslint-disable-next-line
   const [showElements, setShowElements] = React.useState(true);
   const history = useHistory();
-  const { createMatricula } = useMatricula();
+  const [matricula, setMatricula] = useState<MatriculaProps[]>([]);
   const [curso, setCurso] = useState<CursoProps[]>([]);
 
   const [provinciaId, setProvinciaId] = useState("");
@@ -132,7 +131,8 @@ const AddMatricula: React.FC<MatriculaData> = () => {
   async function handleCreateNewMatricula(event: FormEvent) {
     event.preventDefault();
     try {
-      await createMatricula({
+      const id = localStorage.getItem("code-inscricao");
+      const result = await api.post(`/matriculaCreate/${id}`, {
         inscricaoExameAcessoId: localStorage.getItem("code-inscricao"),
         provinciaId: provinciaId,
         municipioId: municipioId,
@@ -159,6 +159,7 @@ const AddMatricula: React.FC<MatriculaData> = () => {
         actualizadoPor: localStorage.getItem("usuario-logado"),
       });
       Swal.fire("Matriculado (a)!", "Matrícula feita com sucesso", "success");
+      setMatricula([...matricula, result.data]);
       history.push("/matriculas/aprovadas");
     } catch (err) {
       const error = err as AxiosError;

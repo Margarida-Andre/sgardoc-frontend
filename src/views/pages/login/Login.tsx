@@ -1,4 +1,6 @@
-import React, { CSSProperties, useState } from "react";
+import React, { useState } from "react";
+import { override } from "../../../global";
+
 import {
   CButton,
   CCard,
@@ -27,14 +29,6 @@ const Login = () => {
   const history = useHistory();
   let [loading, setLoading] = useState(false);
 
-  const override: CSSProperties = {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    height: "100vh",
-    borderColor: "#39f",
-  };
   async function sessao({ email, senha }: loginProps) {
     try {
       setLoading(true);
