@@ -32,7 +32,7 @@ const ListMatricula: React.FC<MatriculaProps> = () => {
   }
 
   async function createEstudante({ id }: MatriculaProps) {
-    localStorage.setItem("data-matricula", id);
+    localStorage.setItem("code-matricula", id);
     history.push(`/estudante/add/${id}`);
   }
 

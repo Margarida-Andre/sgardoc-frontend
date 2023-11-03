@@ -8,6 +8,12 @@ import {
 import { AddMatricula, ListMatricula, EditMatricula } from "./views/matricula";
 import { AddEstudante, ListEstudante, EditEstudante } from "./views/estudante";
 import {
+  ListTurma,
+  AddTurma,
+  EditTurma,
+  ListEstudantesByTurma,
+} from "./views/turma";
+import {
   ListUsers,
   AddUsers,
   EditUsers,
@@ -63,7 +69,7 @@ const routes = [
 
   //Estudantes
   {
-    path: "/estudantes",
+    path: "/estudantes/list",
     name: "Estudante",
     component: ListEstudante,
   },
@@ -76,6 +82,28 @@ const routes = [
     path: "/estudante/edit",
     name: "Estudante",
     component: EditEstudante,
+  },
+
+  //Turmas
+  {
+    path: "/turmas/list",
+    name: "Turma",
+    component: ListTurma,
+  },
+  {
+    path: "/turma/add",
+    name: "Turma",
+    component: AddTurma,
+  },
+  {
+    path: "/turma/edit",
+    name: "Turma",
+    component: EditTurma,
+  },
+  {
+    path: "/turma/estudantes/list",
+    name: "Turma",
+    component: ListEstudantesByTurma,
   },
 
   //User

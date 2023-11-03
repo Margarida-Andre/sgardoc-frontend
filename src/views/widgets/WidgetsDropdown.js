@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   CWidgetDropdown,
   CRow,
@@ -12,9 +12,19 @@ import {
 import CIcon from "@coreui/icons-react";
 import ChartLineSimple from "../charts/ChartLineSimple";
 import ChartBarSimple from "../charts/ChartBarSimple";
-import { useCurso } from "src/hooks/useCurso";
+import api from "../../services/api";
+import Swal from "sweetalert2";
+
 const WidgetsDropdown = () => {
-  const { curso } = useCurso();
+  const [curso, setCurso] = useState([]);
+
+  useEffect(() => {
+    try {
+      api.get("/cursoAll").then((response) => setCurso(response.data));
+    } catch (err) {
+      Swal.fire("Ops!", err.message, "error");
+    }
+  }, []);
 
   return (
     <CRow>
