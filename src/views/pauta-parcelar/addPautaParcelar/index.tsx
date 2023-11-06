@@ -67,7 +67,7 @@ const AddPauta: React.FC<PautaProps> = ({
         nota1,
         nota2,
         mediaFinal: (parseFloat(nota1) + parseFloat(nota2)) / 2,
-        observacao: "Dispensado",
+        observacao,
         professorId: localStorage.getItem("usuario-logado"),
         estudanteId: localStorage.getItem("code-estudante-turma"),
         semestreId: codeDisciplina.semestreId,
