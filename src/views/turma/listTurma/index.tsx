@@ -8,10 +8,12 @@ import { useHistory } from "react-router-dom";
 import api from "src/services/api";
 import { AxiosError } from "axios";
 import Swal from "sweetalert2";
+import { DisciplinaProps } from "../type";
 
 const ListTurma: React.FC<TurmaProps> = () => {
   const [turma, setTurma] = useState<TurmaProps[]>([]);
   const [details, setDetails] = useState<any[]>([]);
+  const [disciplina, setDisciplina] = useState([]);
   const history = useHistory();
 
   useEffect(() => {
@@ -23,9 +25,25 @@ const ListTurma: React.FC<TurmaProps> = () => {
     }
   }, []);
 
+  useEffect(() => {
+    try {
+      api
+        .get("/disciplinaAll")
+        .then((response) => setDisciplina(response.data));
+    } catch (err) {
+      const error = err as AxiosError;
+      Swal.fire("Ops!", error.message, "error");
+    }
+  }, []);
+
   async function update({ id }: TurmaProps) {
     localStorage.setItem("code-turma", id);
     history.push(`/turma/edit/${id}`);
+  }
+
+  async function verPautaParcelar(data: DisciplinaProps) {
+    localStorage.setItem("code-disciplina", JSON.stringify(data));
+    history.push("/pautaParcelar/list");
   }
 
   async function verEstudante({ id }: TurmaProps) {
@@ -107,6 +125,65 @@ const ListTurma: React.FC<TurmaProps> = () => {
                   >
                     Ver Estudantes
                   </CButton>
+                </CCardBody>
+
+                <CCardBody>
+                  <h6
+                    className="text-muted"
+                    style={{
+                      fontWeight: "bold",
+                      textDecoration: "underline",
+                    }}
+                  >
+                    Disciplinas{" "}
+                  </h6>
+                  {disciplina.map((value: DisciplinaProps) => {
+                    return (
+                      <div className="text-muted" style={{ height: "40px" }}>
+                        <span
+                          className="text-muted"
+                          style={{ fontWeight: "bold", marginRight: "5px" }}
+                        >
+                          {value.descricao}:
+                        </span>
+                        <CButton
+                          size="sm"
+                          color="info"
+                          className="ml-1"
+                          onClick={() => verPautaParcelar(value)}
+                        >
+                          Ver pauta parcelar
+                        </CButton>{" "}
+                        |
+                        <CButton
+                          size="sm"
+                          color="info"
+                          className="ml-1"
+                          onClick={() => verPautaParcelar(value)}
+                        >
+                          Ver pauta de exame
+                        </CButton>{" "}
+                        |
+                        <CButton
+                          size="sm"
+                          color="info"
+                          className="ml-1"
+                          onClick={() => verPautaParcelar(value)}
+                        >
+                          Ver pauta de recurso
+                        </CButton>{" "}
+                        |
+                        <CButton
+                          size="sm"
+                          color="info"
+                          className="ml-1"
+                          onClick={() => verPautaParcelar(value)}
+                        >
+                          Ver pauta de recuperação
+                        </CButton>
+                      </div>
+                    );
+                  })}
                 </CCardBody>
               </CCollapse>
             );

@@ -14,6 +14,11 @@ import {
   ListEstudantesByTurma,
 } from "./views/turma";
 import {
+  AddPautaParcelar,
+  EditPautaParcelar,
+  ListPautaParcelar,
+} from "./views/pauta-parcelar";
+import {
   ListUsers,
   AddUsers,
   EditUsers,
@@ -136,6 +141,23 @@ const routes = [
     path: "/profile/listProfileGeneral",
     name: "Profile",
     component: ListProfileGeneral,
+  },
+
+  //PautaParcelar
+  {
+    path: "/pautaParcelar/add",
+    name: "PautaParcelar",
+    component: AddPautaParcelar,
+  },
+  {
+    path: "/pautaParcelar/edit",
+    name: "PautaParcelar",
+    component: EditPautaParcelar,
+  },
+  {
+    path: "/pautaParcelar/list",
+    name: "PautaParcelar",
+    component: ListPautaParcelar,
   },
 ];
 

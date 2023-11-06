@@ -33,3 +33,10 @@ export type TurnoProps = {
   id: string;
   designacao: string;
 };
+
+export type DisciplinaProps = {
+  id: string;
+  designacao: string;
+  descricao: string;
+  semestreId: any;
+};
