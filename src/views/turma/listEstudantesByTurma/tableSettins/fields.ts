@@ -1,35 +1,13 @@
 export const inscricaoTableFields = [
   {
-    key: "carregamentoFotografia",
-    label: "Fotografia",
-    icon: "cil-people",
-    _style: {
-      width: "6%",
-
-      backgroundColor: "#39f",
-      color: "white",
-      padding: "0.5rem",
-    },
-  },
-  {
-    key: "nome",
-    label: "Nome",
-    _style: {
-      width: "30%",
-      backgroundColor: "#39f",
-      color: "white",
-      padding: "0.5rem",
-    },
+    key: "numeroProcesso",
+    label: "Processo",
+    _style: { width: "10%", backgroundColor: "#39f", color: "white" },
   },
   {
     key: "descricao",
     label: "Descrição",
     _style: { width: "20%", backgroundColor: "#39f", color: "white" },
-  },
-  {
-    key: "numeroProcesso",
-    label: "Processo",
-    _style: { width: "10%", backgroundColor: "#39f", color: "white" },
   },
   {
     key: "cursoId",

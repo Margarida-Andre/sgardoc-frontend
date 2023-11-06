@@ -2,7 +2,6 @@ import React from "react";
 import * as FileSaver from "file-saver";
 import * as XLSX from "xlsx";
 import { CButton } from "@coreui/react";
-import { TiExport } from "react-icons/ti";
 
 export const ExportToExcel = ({ apiData, fileName }) => {
   const fileType =
@@ -31,7 +30,6 @@ export const ExportToExcel = ({ apiData, fileName }) => {
       }}
       onClick={(e) => exportToCSV(apiData, fileName)}
     >
-      <TiExport size={20} />
       <span>Exportar CSV</span>
     </CButton>
   );
