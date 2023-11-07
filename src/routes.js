@@ -5,7 +5,12 @@ import {
   AddInscricao,
   EditInscricao,
 } from "./views/inscricoes-exame-acesso";
-import { AddMatricula, ListMatricula, EditMatricula } from "./views/matricula";
+import {
+  AddMatricula,
+  ListMatricula,
+  EditMatricula,
+  ListMatriculaByEstudante,
+} from "./views/matricula";
 import { AddEstudante, ListEstudante, EditEstudante } from "./views/estudante";
 import {
   ListTurma,
@@ -18,6 +23,26 @@ import {
   EditPautaParcelar,
   ListPautaParcelar,
 } from "./views/pauta-parcelar";
+import {
+  AddPautaExame,
+  EditPautaExame,
+  ListPautaExame,
+} from "./views/pauta-exame";
+import {
+  AddPautaRecurso,
+  EditPautaRecurso,
+  ListPautaRecurso,
+} from "./views/pauta-recurso";
+import {
+  AddPautaRecuperacao,
+  EditPautaRecuperacao,
+  ListPautaRecuperacao,
+} from "./views/pauta-recuperacao";
+import {
+  AddDeclaracao,
+  EditDeclaracao,
+  ListDeclaracao,
+} from "./views/solicitacao-declaracao-notas";
 import {
   ListUsers,
   AddUsers,
@@ -70,6 +95,11 @@ const routes = [
     path: "/matricula/edit",
     name: "Matricula",
     component: EditMatricula,
+  },
+  {
+    path: "/turma/estudante/matricula",
+    name: "Matricula",
+    component: ListMatriculaByEstudante,
   },
 
   //Estudantes
@@ -158,6 +188,74 @@ const routes = [
     path: "/pautaParcelar/list",
     name: "PautaParcelar",
     component: ListPautaParcelar,
+  },
+
+  //PautaExame
+  {
+    path: "/pautaExame/add",
+    name: "PautaExame",
+    component: AddPautaExame,
+  },
+  {
+    path: "/pautaExame/edit",
+    name: "PautaParcelar",
+    component: EditPautaExame,
+  },
+  {
+    path: "/pautaExame/list",
+    name: "PautaExame",
+    component: ListPautaExame,
+  },
+
+  //PautaRecurso
+  {
+    path: "/pautaRecurso/add",
+    name: "PautaRecurso",
+    component: AddPautaRecurso,
+  },
+  {
+    path: "/pautaRecurso/edit",
+    name: "PautaRecurso",
+    component: EditPautaRecurso,
+  },
+  {
+    path: "/pautaRecurso/list",
+    name: "PautaRecurso",
+    component: ListPautaRecurso,
+  },
+
+  //PautaRecuperação
+  {
+    path: "/pautaRecuperacao/add",
+    name: "PautaRecuperacao",
+    component: AddPautaRecuperacao,
+  },
+  {
+    path: "/pautaRecuperacao/edit",
+    name: "PautaRecuperacao",
+    component: EditPautaRecuperacao,
+  },
+  {
+    path: "/pautaRecuperacao/list",
+    name: "PautaRecuperacao",
+    component: ListPautaRecuperacao,
+  },
+
+  //Solicitar Declaração
+  {
+    path: "/declaracao/add",
+    name: "Declaracao",
+    component: AddDeclaracao,
+  },
+  {
+    path: "/declaracao/edit",
+    name: "Declaracao",
+    component: EditDeclaracao,
+  },
+  {
+    path: "/declaracao/aprovadas/list",
+    name: "Declaracao",
+    component: ListDeclaracao,
   },
 ];
 

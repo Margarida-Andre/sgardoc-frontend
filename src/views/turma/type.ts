@@ -40,3 +40,17 @@ export type DisciplinaProps = {
   descricao: string;
   semestreId: any;
 };
+
+export type EstudanteData = {
+  id: string;
+  matriculaId: string;
+  usuarioId: string | null;
+  cursoId: string;
+  grauAcademicoId: string;
+  turmaId: string;
+  turnoId: any;
+  numeroProcesso: any;
+  descricao: string;
+  criadoPor: string | null;
+  actualizadoPor: string | null;
+};

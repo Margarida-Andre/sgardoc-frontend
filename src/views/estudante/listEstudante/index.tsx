@@ -1,6 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { PSTable } from "../../../shared/components/Table/index";
-import { CButton, CCollapse, CCardBody } from "@coreui/react";
+import {
+  CButton,
+  CCollapse,
+  CCardBody,
+  CDropdownToggle,
+  CDropdown,
+  CDropdownMenu,
+  CDropdownItem,
+  CDropdownDivider,
+} from "@coreui/react";
 import { inscricaoTableFields } from "./tableSettins/fields";
 import { EstudanteProps } from "../type";
 import Moment from "react-moment";
@@ -28,9 +37,14 @@ const ListEstudante: React.FC<EstudanteProps> = () => {
     history.push(`/estudante/edit/${id}`);
   }
 
-  async function matricula({ id }: EstudanteProps) {
-    localStorage.setItem("code-inscricao", id);
-    history.push(`/matricula/add/${id}`);
+  async function matricula(data: EstudanteProps) {
+    localStorage.setItem("code-estudante-turma", JSON.stringify(data));
+    history.push("/turma/estudante/matricula");
+  }
+
+  async function declaracao({ id }: EstudanteProps) {
+    localStorage.setItem("code-estudante", id);
+    history.push("/declaracao/add");
   }
 
   const toggleDetails = (index: any) => {
@@ -97,6 +111,56 @@ const ListEstudante: React.FC<EstudanteProps> = () => {
                   >
                     Ver Matrícula
                   </CButton>
+
+                  <CDropdown className="btn-group ml-1">
+                    <CDropdownToggle color="info">
+                      Solicitar documento
+                    </CDropdownToggle>
+                    <CDropdownMenu>
+                      <CDropdownItem href="#">
+                        Histórico com notas
+                      </CDropdownItem>
+                      <CDropdownDivider />
+                      <CDropdownItem href="#" onClick={() => declaracao(item)}>
+                        Declaração de Estudos
+                      </CDropdownItem>
+                      <CDropdownDivider />
+                      <CDropdownItem href="#">Requerimento</CDropdownItem>
+                    </CDropdownMenu>
+                  </CDropdown>
+                </CCardBody>
+
+                <CCardBody>
+                  <h6
+                    className="text-muted"
+                    style={{
+                      fontWeight: "bold",
+                      textDecoration: "underline",
+                    }}
+                  >
+                    Mais detalhes{" "}
+                  </h6>
+                  <div className="lh-base" style={{ fontSize: "0.9rem" }}>
+                    <div className="text-muted">
+                      <span
+                        className="text-muted"
+                        style={{ fontWeight: "bold", marginRight: "5px" }}
+                      >
+                        Criado por:
+                      </span>
+                      <span>{item.criadoPor}</span>
+                    </div>
+
+                    <div className="text-muted">
+                      <span
+                        className="text-muted"
+                        style={{ fontWeight: "bold", marginRight: "5px" }}
+                      >
+                        Actualizado por:
+                      </span>
+                      <span>{item.actualizadoPor}</span>
+                    </div>
+                  </div>
                 </CCardBody>
               </CCollapse>
             );

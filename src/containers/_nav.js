@@ -141,17 +141,17 @@ const _nav = [
       {
         _tag: "CSidebarNavItem",
         name: "Pendentes",
-        to: "/menuItem/list",
+        to: "",
       },
       {
         _tag: "CSidebarNavItem",
         name: "Rejeitadas",
-        to: "/menuItem/list",
+        to: "",
       },
       {
         _tag: "CSidebarNavItem",
         name: "Aprovadas",
-        to: "/menuItem/list",
+        to: "/declaracao/aprovadas/list",
       },
     ],
   },

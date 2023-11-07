@@ -8,6 +8,7 @@ import { useHistory } from "react-router-dom";
 import api from "src/services/api";
 import { AxiosError } from "axios";
 import Swal from "sweetalert2";
+import "../styles.scss";
 
 const ListPauta: React.FC<PautaProps> = () => {
   const [pauta, setPauta] = useState<PautaProps[]>([]);
@@ -24,8 +25,23 @@ const ListPauta: React.FC<PautaProps> = () => {
   }, []);
 
   async function update({ id }: PautaProps) {
-    localStorage.setItem("code-estudante", id);
-    history.push(`/estudante/edit/${id}`);
+    localStorage.setItem("code-pauta-parcelar", id);
+    history.push(`/pautaParcelar/edit/${id}`);
+  }
+
+  async function deleteItem(params: any) {
+    try {
+      const id = params?.id;
+      const result = await api.delete(`/pautaParcelarDelete/${id}`);
+      Swal.fire("Deletada!", "Nota excluída com sucesso.", "success");
+      const response = pauta.filter((data) => data.id !== id);
+      setPauta(response);
+      console.log(result);
+    } catch (err) {
+      const error = err as AxiosError;
+      Swal.fire("Ops!", "Ocorreu um erro, tente novamente", "error");
+      console.log(error.message);
+    }
   }
 
   const toggleDetails = (index: any) => {
@@ -75,6 +91,22 @@ const ListPauta: React.FC<PautaProps> = () => {
               </>
             );
           },
+          observacao: (item: any) => {
+            return (
+              <>
+                <td
+                  className={
+                    item.observacao === "Exame" ||
+                    item.observacao === "Dispensado(a)"
+                      ? "green-text"
+                      : "red-text"
+                  }
+                >
+                  {item.observacao}
+                </td>
+              </>
+            );
+          },
 
           details: (item: any) => {
             return (
@@ -92,6 +124,47 @@ const ListPauta: React.FC<PautaProps> = () => {
                   >
                     Editar
                   </CButton>
+                  <CButton
+                    size="sm"
+                    color="danger"
+                    className="ml-1"
+                    onClick={() => deleteItem(item)}
+                  >
+                    Apagar
+                  </CButton>
+                </CCardBody>
+
+                <CCardBody>
+                  <h6
+                    className="text-muted"
+                    style={{
+                      fontWeight: "bold",
+                      textDecoration: "underline",
+                    }}
+                  >
+                    Mais detalhes{" "}
+                  </h6>
+                  <div className="lh-base" style={{ fontSize: "0.9rem" }}>
+                    <div className="text-muted">
+                      <span
+                        className="text-muted"
+                        style={{ fontWeight: "bold", marginRight: "5px" }}
+                      >
+                        Criado por:
+                      </span>
+                      <span>{item.criadoPor}</span>
+                    </div>
+
+                    <div className="text-muted">
+                      <span
+                        className="text-muted"
+                        style={{ fontWeight: "bold", marginRight: "5px" }}
+                      >
+                        Actualizado por:
+                      </span>
+                      <span>{item.actualizadoPor}</span>
+                    </div>
+                  </div>
                 </CCardBody>
               </CCollapse>
             );
