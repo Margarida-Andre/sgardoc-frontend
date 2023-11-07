@@ -46,6 +46,21 @@ const ListTurma: React.FC<TurmaProps> = () => {
     history.push("/pautaParcelar/list");
   }
 
+  async function verPautaExame(data: DisciplinaProps) {
+    localStorage.setItem("code-disciplina", JSON.stringify(data));
+    history.push("/pautaExame/list");
+  }
+
+  async function verPautaRecurso(data: DisciplinaProps) {
+    localStorage.setItem("code-disciplina", JSON.stringify(data));
+    history.push("/pautaRecurso/list");
+  }
+
+  async function verPautaRecuperacao(data: DisciplinaProps) {
+    localStorage.setItem("code-disciplina", JSON.stringify(data));
+    history.push("/pautaRecuperacao/list");
+  }
+
   async function verEstudante({ id }: TurmaProps) {
     localStorage.setItem("code-turma", id);
     history.push(`/turma/estudantes/list/${id}`);
@@ -135,6 +150,39 @@ const ListTurma: React.FC<TurmaProps> = () => {
                       textDecoration: "underline",
                     }}
                   >
+                    Mais detalhes{" "}
+                  </h6>
+                  <div className="lh-base" style={{ fontSize: "0.9rem" }}>
+                    <div className="text-muted">
+                      <span
+                        className="text-muted"
+                        style={{ fontWeight: "bold", marginRight: "5px" }}
+                      >
+                        Criado por:
+                      </span>
+                      <span>{item.criadoPor}</span>
+                    </div>
+
+                    <div className="text-muted">
+                      <span
+                        className="text-muted"
+                        style={{ fontWeight: "bold", marginRight: "5px" }}
+                      >
+                        Actualizado por:
+                      </span>
+                      <span>{item.actualizadoPor}</span>
+                    </div>
+                  </div>
+                </CCardBody>
+
+                <CCardBody>
+                  <h6
+                    className="text-muted"
+                    style={{
+                      fontWeight: "bold",
+                      textDecoration: "underline",
+                    }}
+                  >
                     Disciplinas{" "}
                   </h6>
                   {disciplina.map((value: DisciplinaProps) => {
@@ -159,7 +207,7 @@ const ListTurma: React.FC<TurmaProps> = () => {
                           size="sm"
                           color="info"
                           className="ml-1"
-                          onClick={() => verPautaParcelar(value)}
+                          onClick={() => verPautaExame(value)}
                         >
                           Ver pauta de exame
                         </CButton>{" "}
@@ -168,7 +216,7 @@ const ListTurma: React.FC<TurmaProps> = () => {
                           size="sm"
                           color="info"
                           className="ml-1"
-                          onClick={() => verPautaParcelar(value)}
+                          onClick={() => verPautaRecurso(value)}
                         >
                           Ver pauta de recurso
                         </CButton>{" "}
@@ -177,7 +225,7 @@ const ListTurma: React.FC<TurmaProps> = () => {
                           size="sm"
                           color="info"
                           className="ml-1"
-                          onClick={() => verPautaParcelar(value)}
+                          onClick={() => verPautaRecuperacao(value)}
                         >
                           Ver pauta de recuperação
                         </CButton>

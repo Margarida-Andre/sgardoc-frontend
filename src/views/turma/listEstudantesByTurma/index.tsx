@@ -44,14 +44,29 @@ const ListEstudantes: React.FC<EstudanteProps> = () => {
     history.push(`/estudante/edit/${id}`);
   }
 
-  async function matricula({ id }: EstudanteProps) {
-    localStorage.setItem("code-inscricao", id);
-    history.push(`/matricula/add/${id}`);
+  async function matricula(data: EstudanteProps) {
+    localStorage.setItem("code-estudante-turma", JSON.stringify(data));
+    history.push(`/turma/estudante/matricula`);
   }
 
   async function pautaParcelar(data: DisciplinaProps) {
     localStorage.setItem("code-disciplina", JSON.stringify(data));
     history.push("/pautaParcelar/add");
+  }
+
+  async function pautaExame(data: DisciplinaProps) {
+    localStorage.setItem("code-disciplina", JSON.stringify(data));
+    history.push("/pautaExame/add");
+  }
+
+  async function pautaRecurso(data: DisciplinaProps) {
+    localStorage.setItem("code-disciplina", JSON.stringify(data));
+    history.push("/pautaRecurso/add");
+  }
+
+  async function pautaRecuperacao(data: DisciplinaProps) {
+    localStorage.setItem("code-disciplina", JSON.stringify(data));
+    history.push("/pautaRecuperacao/add");
   }
 
   const toggleDetails = (index: any) => {
@@ -129,6 +144,39 @@ const ListEstudantes: React.FC<EstudanteProps> = () => {
                       textDecoration: "underline",
                     }}
                   >
+                    Mais detalhes{" "}
+                  </h6>
+                  <div className="lh-base" style={{ fontSize: "0.9rem" }}>
+                    <div className="text-muted">
+                      <span
+                        className="text-muted"
+                        style={{ fontWeight: "bold", marginRight: "5px" }}
+                      >
+                        Criado por:
+                      </span>
+                      <span>{item.criadoPor}</span>
+                    </div>
+
+                    <div className="text-muted">
+                      <span
+                        className="text-muted"
+                        style={{ fontWeight: "bold", marginRight: "5px" }}
+                      >
+                        Actualizado por:
+                      </span>
+                      <span>{item.actualizadoPor}</span>
+                    </div>
+                  </div>
+                </CCardBody>
+
+                <CCardBody>
+                  <h6
+                    className="text-muted"
+                    style={{
+                      fontWeight: "bold",
+                      textDecoration: "underline",
+                    }}
+                  >
                     Disciplinas{" "}
                   </h6>
                   {disciplina.map((value: DisciplinaProps) => {
@@ -153,7 +201,7 @@ const ListEstudantes: React.FC<EstudanteProps> = () => {
                           size="sm"
                           color="success"
                           className="ml-1"
-                          onClick={() => pautaParcelar(value)}
+                          onClick={() => pautaExame(value)}
                         >
                           Adicionar nota exame
                         </CButton>{" "}
@@ -162,7 +210,7 @@ const ListEstudantes: React.FC<EstudanteProps> = () => {
                           size="sm"
                           color="success"
                           className="ml-1"
-                          onClick={() => pautaParcelar(value)}
+                          onClick={() => pautaRecurso(value)}
                         >
                           Adicionar nota recurso
                         </CButton>{" "}
@@ -171,7 +219,7 @@ const ListEstudantes: React.FC<EstudanteProps> = () => {
                           size="sm"
                           color="success"
                           className="ml-1"
-                          onClick={() => pautaParcelar(value)}
+                          onClick={() => pautaRecuperacao(value)}
                         >
                           Adicionar nota recuperação
                         </CButton>

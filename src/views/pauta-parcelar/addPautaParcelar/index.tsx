@@ -67,7 +67,15 @@ const AddPauta: React.FC<PautaProps> = ({
         nota1,
         nota2,
         mediaFinal: (parseFloat(nota1) + parseFloat(nota2)) / 2,
-        observacao,
+        observacao:
+          (parseFloat(nota1) + parseFloat(nota2)) / 2 < 7
+            ? "Recurso"
+            : (parseFloat(nota1) + parseFloat(nota2)) / 2 > 6 &&
+              (parseFloat(nota1) + parseFloat(nota2)) / 2 < 14
+            ? "Exame"
+            : (parseFloat(nota1) + parseFloat(nota2)) / 2 > 13
+            ? "Dispensado(a)"
+            : "",
         professorId: localStorage.getItem("usuario-logado"),
         estudanteId: localStorage.getItem("code-estudante-turma"),
         semestreId: codeDisciplina.semestreId,
@@ -76,7 +84,7 @@ const AddPauta: React.FC<PautaProps> = ({
         actualizadoPor: localStorage.getItem("usuario-logado"),
       });
       setLoading(false);
-      Swal.fire("Pauta!", "Nota adicionada com sucesso", "success");
+      Swal.fire("Pauta Parcelar!", "Nota adicionada com sucesso", "success");
       setPauta([...pauta, result.data]);
       history.push("/pautaParcelar/list");
     } catch (err) {
@@ -87,7 +95,7 @@ const AddPauta: React.FC<PautaProps> = ({
   }
 
   function cancelAdd() {
-    history.push("/turma/estudantes/list/:id");
+    history.push("/pautaParcelar/list");
   }
 
   return (
@@ -111,7 +119,7 @@ const AddPauta: React.FC<PautaProps> = ({
                   fontSize: "1rem",
                 }}
               >
-                Adiciona aqui um estudante
+                Adiciona aqui notas parcelares
                 <div className="card-header-actions">
                   <CButton
                     color="link"
@@ -161,6 +169,7 @@ const AddPauta: React.FC<PautaProps> = ({
                         <CCol xs="12" md="6">
                           <CLabel htmlFor="nota1">Primeira nota</CLabel>
                           <CInput
+                            type="number"
                             id="nota1"
                             name="nota1"
                             autoComplete="nota1"
@@ -182,6 +191,7 @@ const AddPauta: React.FC<PautaProps> = ({
                         <CCol xs="12" md="6">
                           <CLabel htmlFor="nota2">Segunda nota</CLabel>
                           <CInput
+                            type="number"
                             id="nota2"
                             name="nota2"
                             autoComplete="nota2"
@@ -205,6 +215,7 @@ const AddPauta: React.FC<PautaProps> = ({
                         <CCol xs="12" md="14">
                           <CLabel htmlFor="mediaFinal">Média final</CLabel>
                           <CInput
+                            type="number"
                             id="mediaFinal"
                             name="mediaFinal"
                             autoComplete="mediaFinal"
