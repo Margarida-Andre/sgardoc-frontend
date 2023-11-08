@@ -44,10 +44,15 @@ const _nav = [
   {
     _tag: "CSidebarNavItem",
     name: "Cursos",
-    to: "/profile/list",
+    to: "/curso/list",
     icon: "cil-star",
   },
-
+  {
+    _tag: "CSidebarNavItem",
+    name: "Disciplinas",
+    to: "/disciplina/list",
+    icon: "cil-star",
+  },
   {
     _tag: "CSidebarNavItem",
     name: "Turmas",

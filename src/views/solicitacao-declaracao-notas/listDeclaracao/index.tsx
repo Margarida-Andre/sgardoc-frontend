@@ -60,13 +60,13 @@ const ListInscricao: React.FC<DeclaracaoProps> = () => {
   return (
     <>
       <PSTable
-        title="Inscrições de Exame de Acesso"
+        title="Declarações de Estudo"
         refresh={declaracao}
         data={declaracao}
         loading={false}
         fields={inscricaoTableFields}
         itemsPerPage={5}
-        linkAddNewRow="/inscricao/add"
+        linkAddNewRow=""
         scopedSlots={{
           carregamentoFotografia: (item: any) => (
             <td>
