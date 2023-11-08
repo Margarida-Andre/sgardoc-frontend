@@ -9,13 +9,6 @@ import {
   CProgress,
   CRow,
 } from "@coreui/react";
-import {
-  CTableRow,
-  CTable,
-  CTableBody,
-  CTableHeaderCell,
-  CTableHead,
-} from "@coreui/react-pro";
 import React, { lazy } from "react";
 import MainChartExample from "../charts/MainChartExample.js";
 
@@ -96,34 +89,6 @@ const Dashboard = () => {
             </CCol>
           </CRow>
         </CCardFooter>
-      </CCard>
-
-      <CCard>
-        <CCardBody>
-          <CRow>
-            <CCol sm="5">
-              <h5 id="users" className="card-title mb-0">
-                Novos Usuários
-              </h5>
-              <br />
-            </CCol>
-
-            <CTable align="middle" className="mb-0 border" hover responsive>
-              <CTableHead style={{ backgroundColor: "#39f", color: "white" }}>
-                <CTableRow>
-                  <CTableHeaderCell className="text-center">
-                    <CIcon name="cil-people" />
-                  </CTableHeaderCell>
-                  <CTableHeaderCell>Nome</CTableHeaderCell>
-                  <CTableHeaderCell>Email</CTableHeaderCell>
-                  <CTableHeaderCell>Endereço</CTableHeaderCell>
-                  <CTableHeaderCell>CPF</CTableHeaderCell>
-                </CTableRow>
-              </CTableHead>
-              <CTableBody></CTableBody>
-            </CTable>
-          </CRow>
-        </CCardBody>
       </CCard>
     </>
   );
