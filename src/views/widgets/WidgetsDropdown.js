@@ -19,12 +19,47 @@ import { override } from "../../global";
 
 const WidgetsDropdown = () => {
   const [curso, setCurso] = useState([]);
+  const [estudante, setEstudante] = useState([]);
+  const [matricula, setMatricula] = useState([]);
+  const [declaracao, setDeclaracao] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     try {
       setLoading(true);
       api.get("/cursoAll").then((response) => setCurso(response.data));
+      setLoading(false);
+    } catch (err) {
+      Swal.fire("Ops!", err.message, "error");
+    }
+  }, []);
+
+  useEffect(() => {
+    try {
+      setLoading(true);
+      api.get("/estudanteAll").then((response) => setEstudante(response.data));
+      setLoading(false);
+    } catch (err) {
+      Swal.fire("Ops!", err.message, "error");
+    }
+  }, []);
+
+  useEffect(() => {
+    try {
+      setLoading(true);
+      api.get("/matriculaAll").then((response) => setMatricula(response.data));
+      setLoading(false);
+    } catch (err) {
+      Swal.fire("Ops!", err.message, "error");
+    }
+  }, []);
+
+  useEffect(() => {
+    try {
+      setLoading(true);
+      api
+        .get("/declaracaoAprovadas")
+        .then((response) => setDeclaracao(response.data));
       setLoading(false);
     } catch (err) {
       Swal.fire("Ops!", err.message, "error");
@@ -46,7 +81,7 @@ const WidgetsDropdown = () => {
           <CCol sm="6" lg="3">
             <CWidgetDropdown
               color="gradient-primary"
-              header={10}
+              header={estudante.length}
               text="Estudantes"
               footerSlot={
                 <ChartLineSimple
@@ -76,7 +111,7 @@ const WidgetsDropdown = () => {
           <CCol sm="6" lg="3">
             <CWidgetDropdown
               color="gradient-info"
-              header={15}
+              header={matricula.length}
               text="Matrículas"
               footerSlot={
                 <ChartLineSimple
@@ -141,7 +176,7 @@ const WidgetsDropdown = () => {
           <CCol sm="6" lg="3">
             <CWidgetDropdown
               color="gradient-danger"
-              header={curso.length}
+              header={declaracao.length}
               text="Requisições"
               footerSlot={
                 <ChartBarSimple
