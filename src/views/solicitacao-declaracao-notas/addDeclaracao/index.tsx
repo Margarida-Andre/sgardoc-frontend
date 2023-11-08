@@ -143,7 +143,11 @@ const AddDeclaracao: React.FC<DeclaracaoProps> = ({
         criadoPor,
         actualizadoPor,
       });
-      Swal.fire("Requisição (a)!", "Requisição feita com sucesso", "success");
+      Swal.fire(
+        "Requisição de declaração (a)!",
+        "Requisição feita com sucesso",
+        "success"
+      );
       setDeclaracao([...declaracao, result.data]);
       history.push("/declaracao/aprovadas/list");
     } catch (err) {
@@ -154,7 +158,7 @@ const AddDeclaracao: React.FC<DeclaracaoProps> = ({
   }
 
   function cancelAdd() {
-    history.push("/declaracao/aprovadas");
+    history.push("/declaracao/aprovadas/list");
   }
 
   return (

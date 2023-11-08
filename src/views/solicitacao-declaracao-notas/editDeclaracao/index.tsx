@@ -39,6 +39,8 @@ const EditDeclaracao: React.FC<DeclaracaoData> = () => {
   const [grauAcademico, setGrauAcademico] = useState<GrauProps[]>([]);
   const [email, setEmail] = useState("");
   const [tipoDeclaracaoId, setTipoDeclaracaoId] = useState("");
+  const [cursoId, setCursoId] = useState("");
+  const [curso, setCurso] = useState([]);
   const [duracaoDeclaracaoId, setDuracaoDeclaracaoId] = useState("");
   const [efeitoDeclaracaoId, setEfeitoDeclaracaoId] = useState("");
   const [tipoDeclaracao, setTipoDeclaracao] = useState<TipoProps[]>([]);
@@ -54,7 +56,7 @@ const EditDeclaracao: React.FC<DeclaracaoData> = () => {
   useEffect(() => {
     try {
       api
-        .get("/duracaoAll")
+        .get("/duracaoDeclaracao")
         .then((response) => setDuracaoDeclaracao(response.data));
     } catch (err) {
       const error = err as AxiosError;
@@ -65,8 +67,23 @@ const EditDeclaracao: React.FC<DeclaracaoData> = () => {
   useEffect(() => {
     try {
       api
-        .get("/EfeitoAll")
+        .get("/EfeitoDeclaracao")
         .then((response) => setEfeitoDeclaracao(response.data));
+    } catch (err) {
+      const error = err as AxiosError;
+      Swal.fire("Ops!", error.message, "error");
+    }
+  }, []);
+
+  function onSelectCurso(id: any) {
+    api
+      .get(`/grauAcademico/${id}`)
+      .then((response) => setGrauAcademico(response.data.grauAcademico));
+  }
+
+  useEffect(() => {
+    try {
+      api.get("/cursoAll").then((response) => setCurso(response.data));
     } catch (err) {
       const error = err as AxiosError;
       Swal.fire("Ops!", error.message, "error");
@@ -76,17 +93,8 @@ const EditDeclaracao: React.FC<DeclaracaoData> = () => {
   useEffect(() => {
     try {
       api
-        .get("/grauAcademicoAll")
-        .then((response) => setGrauAcademico(response.data));
-    } catch (err) {
-      const error = err as AxiosError;
-      Swal.fire("Ops!", error.message, "error");
-    }
-  }, []);
-
-  useEffect(() => {
-    try {
-      api.get("/tipoAll").then((response) => setTipoDeclaracao(response.data));
+        .get("/tipoDeclaracao")
+        .then((response) => setTipoDeclaracao(response.data));
     } catch (err) {
       const error = err as AxiosError;
       Swal.fire("Ops!", error.message, "error");
@@ -116,7 +124,7 @@ const EditDeclaracao: React.FC<DeclaracaoData> = () => {
   async function handleUpdateDeclaracacao(event: FormEvent) {
     event.preventDefault();
     try {
-      const id = localStorage.getItem("data-declaracao");
+      const id = localStorage.getItem("code-declaracao");
       const result = await api.patch(`/declaracaoUpdate/${id}`, {
         estudanteId: localStorage.getItem("code-estudante"),
         grauAcademicoId,
@@ -132,9 +140,9 @@ const EditDeclaracao: React.FC<DeclaracaoData> = () => {
         criadoPor: localStorage.getItem("usuario-logado"),
         actualizadoPor: localStorage.getItem("usuario-logado"),
       });
-      Swal.fire("Editado!", "Inscrição editada com sucesso", "success");
+      Swal.fire("Editado(a)!", "Declaração editada com sucesso", "success");
       setDeclaracao([...declaracao, result.data]);
-      history.push("/declaracao/aprovadas");
+      history.push("/declaracao/aprovadas/list");
     } catch (err) {
       const error = err as AxiosError;
       Swal.fire("Ops!", error.message, "error");
@@ -142,7 +150,7 @@ const EditDeclaracao: React.FC<DeclaracaoData> = () => {
   }
 
   function cancelEdit() {
-    history.push("/declaracao/aprovadas");
+    history.push("/declaracao/aprovadas/list");
   }
 
   return (
@@ -180,7 +188,7 @@ const EditDeclaracao: React.FC<DeclaracaoData> = () => {
               <CCardBody>
                 <form onSubmit={handleUpdateDeclaracacao}>
                   <CFormGroup row>
-                    <CCol xs="12" md="6">
+                    <CCol xs="12" md="14">
                       <CLabel htmlFor="email">Email</CLabel>
                       <CInput
                         id="email"
@@ -192,7 +200,30 @@ const EditDeclaracao: React.FC<DeclaracaoData> = () => {
                         autoComplete="email"
                       />
                     </CCol>
+                  </CFormGroup>
 
+                  <CFormGroup row>
+                    <CCol xs="12" md="6">
+                      <CLabel htmlFor="cursoId">Selecciona seu curso</CLabel>
+                      <CSelect
+                        id="cursoId"
+                        name="cursoId"
+                        value={cursoId}
+                        onChange={(e) => {
+                          setCursoId((e.target as HTMLInputElement).value);
+                          onSelectCurso((e.target as HTMLSelectElement).value);
+                        }}
+                      >
+                        <option value="0">
+                          Por favor, selecciona um curso
+                        </option>
+                        {curso.map((item: any) => {
+                          return (
+                            <option value={item.id}>{item.designacao}</option>
+                          );
+                        })}
+                      </CSelect>
+                    </CCol>
                     <CCol xs="12" md="6">
                       <CLabel htmlFor="grauAcademicoId">
                         Selecciona seu grau acadêmico

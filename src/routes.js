@@ -56,6 +56,8 @@ import { ListProfile, EditProfile } from "./views/profile/index";
 import ListProfilePhotos from "./views/profile/listProfile/listProfilePhotos";
 import ListProfileGeneral from "./views/profile/listProfile/listProfileGeneral";
 import Login from "./views/pages/login/Login";
+import { AddCurso, EditCurso, ListCurso } from "./views/cursos";
+import { AddDiciplina, EditDiciplina, ListDiciplina } from "./views/Diciplina";
 
 const routes = [
   { path: "/", exact: true, name: "Home" },
@@ -78,6 +80,22 @@ const routes = [
     path: "/inscricao/edit",
     name: "Inscricao de Exame de Acesso",
     component: EditInscricao,
+  },
+  //Cursos
+  {
+    path: "/curso/list",
+    name: "Cursos",
+    component: ListCurso,
+  },
+  {
+    path: "/curso/add",
+    name: "Cursos",
+    component: AddCurso,
+  },
+  {
+    path: "/curso/edit",
+    name: "Cursos",
+    component: EditCurso,
   },
 
   //Matrículas
@@ -256,6 +274,23 @@ const routes = [
     path: "/declaracao/aprovadas/list",
     name: "Declaracao",
     component: ListDeclaracao,
+  },
+
+  //Disciplina
+  {
+    path: "/disciplina/add",
+    name: "Disciplina",
+    component: AddDiciplina,
+  },
+  {
+    path: "/disciplina/edit",
+    name: "Disciplina",
+    component: EditDiciplina,
+  },
+  {
+    path: "/disciplina/list",
+    name: "Disciplina",
+    component: ListDiciplina,
   },
 ];
 
