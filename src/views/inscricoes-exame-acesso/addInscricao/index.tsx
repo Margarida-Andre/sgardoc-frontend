@@ -149,11 +149,14 @@ const AddInscricao: React.FC<InscricaoProps> = ({
     }
   }, []);
 
-  function onSelectProvincia(id: any) {
-    api
-      .get(`/municipio/${id}`)
-      .then((response) => setMunicipio(response.data.grauAcademico));
-  }
+  useEffect(() => {
+    try {
+      api.get("/municipioAll").then((response) => setMunicipio(response.data));
+    } catch (err) {
+      const error = err as AxiosError;
+      Swal.fire("Ops!", error.message, "error");
+    }
+  }, []);
 
   async function handleCreateNewRegister({
     provinciaId,
@@ -304,12 +307,7 @@ const AddInscricao: React.FC<InscricaoProps> = ({
                           name="provinciaId"
                           value={values.provinciaId}
                           onBlur={handleBlur("provinciaId")}
-                          onChange={(e) => {
-                            handleChange(e);
-                            onSelectProvincia(
-                              (e.target as HTMLSelectElement).value
-                            );
-                          }}
+                          onChange={handleChange("provinciaId")}
                           className={
                             errors.provinciaId ? "input-error" : "none"
                           }
