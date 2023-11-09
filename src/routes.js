@@ -2,12 +2,16 @@ import Charts from "./views/charts/Charts";
 import Dashboard from "./views/dashboard/Dashboard";
 import {
   ListInscricao,
+  ListInscricaoRejeitada,
+  ListInscricaoPendente,
   AddInscricao,
   EditInscricao,
 } from "./views/inscricoes-exame-acesso";
 import {
   AddMatricula,
   ListMatricula,
+  ListMatriculaPendente,
+  ListMatriculaRejeitada,
   EditMatricula,
   ListMatriculaByEstudante,
 } from "./views/matricula";
@@ -42,6 +46,8 @@ import {
   AddDeclaracao,
   EditDeclaracao,
   ListDeclaracao,
+  ListDeclaracaoPendente,
+  ListDeclaracaoRejeitada,
 } from "./views/solicitacao-declaracao-notas";
 import {
   ListUsers,
@@ -70,6 +76,16 @@ const routes = [
     path: "/inscricoes/aprovadas",
     name: "Inscrições de Exame de Acesso",
     component: ListInscricao,
+  },
+  {
+    path: "/inscricoes/rejeitadas",
+    name: "Inscrições de Exame de Acesso",
+    component: ListInscricaoRejeitada,
+  },
+  {
+    path: "/inscricoes/pendentes",
+    name: "Inscrições de Exame de Acesso",
+    component: ListInscricaoPendente,
   },
   {
     path: "/inscricao/add",
@@ -103,6 +119,16 @@ const routes = [
     path: "/matriculas/aprovadas",
     name: "Matriculas",
     component: ListMatricula,
+  },
+  {
+    path: "/matricula/pendentes",
+    name: "Matriculas",
+    component: ListMatriculaPendente,
+  },
+  {
+    path: "/matricula/rejeitadas",
+    name: "Matriculas",
+    component: ListMatriculaRejeitada,
   },
   {
     path: "/matricula/add",
@@ -274,6 +300,16 @@ const routes = [
     path: "/declaracao/aprovadas/list",
     name: "Declaracao",
     component: ListDeclaracao,
+  },
+  {
+    path: "/declaracao/rejeitadas",
+    name: "Declaracao",
+    component: ListDeclaracaoRejeitada,
+  },
+  {
+    path: "/declaracao/pendentes",
+    name: "Declaracao",
+    component: ListDeclaracaoPendente,
   },
 
   //Disciplina

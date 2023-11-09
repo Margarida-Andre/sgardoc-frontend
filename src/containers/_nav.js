@@ -30,13 +30,8 @@ const _nav = [
       },
       {
         _tag: "CSidebarNavItem",
-        name: "Professores",
-        to: "/teacher/list",
-      },
-      {
-        _tag: "CSidebarNavItem",
-        name: "Secretários",
-        to: "/students/list",
+        name: "Professores/Secretários",
+        to: "",
       },
     ],
   },
@@ -69,12 +64,12 @@ const _nav = [
       {
         _tag: "CSidebarNavItem",
         name: "Pendentes",
-        to: "/menuItem/list",
+        to: "/inscricoes/pendentes",
       },
       {
         _tag: "CSidebarNavItem",
         name: "Rejeitadas",
-        to: "/menuItem/list",
+        to: "/inscricoes/rejeitadas",
       },
       {
         _tag: "CSidebarNavItem",
@@ -93,12 +88,12 @@ const _nav = [
       {
         _tag: "CSidebarNavItem",
         name: "Pendentes",
-        to: "/menuItem/list",
+        to: "/matricula/pendentes",
       },
       {
         _tag: "CSidebarNavItem",
         name: "Rejeitadas",
-        to: "/menuItem/list",
+        to: "/matricula/rejeitadas",
       },
       {
         _tag: "CSidebarNavItem",
@@ -122,12 +117,12 @@ const _nav = [
       {
         _tag: "CSidebarNavItem",
         name: "Pendentes",
-        to: "/menuItem/list",
+        to: "",
       },
       {
         _tag: "CSidebarNavItem",
         name: "Rejeitadas",
-        to: "/menuItem/list",
+        to: "",
       },
       {
         _tag: "CSidebarNavItem",
@@ -146,12 +141,12 @@ const _nav = [
       {
         _tag: "CSidebarNavItem",
         name: "Pendentes",
-        to: "",
+        to: "/declaracao/pendentes",
       },
       {
         _tag: "CSidebarNavItem",
         name: "Rejeitadas",
-        to: "",
+        to: "/declaracao/rejeitadas",
       },
       {
         _tag: "CSidebarNavItem",
@@ -217,14 +212,14 @@ const _nav = [
   {
     _tag: "CSidebarNavItem",
     name: "Perfil",
-    to: "/profile/list",
+    to: "",
     icon: "cil-user",
   },
 
   {
     _tag: "CSidebarNavItem",
     name: "Configurações",
-    to: "/relatorios",
+    to: "",
     icon: "cil-settings",
   },
 ];

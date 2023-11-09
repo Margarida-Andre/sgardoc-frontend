@@ -9,6 +9,7 @@ import { useHistory } from "react-router-dom";
 import api from "src/services/api";
 import Swal from "sweetalert2";
 import { AxiosError } from "axios";
+import "../styles.scss";
 
 const ListMatricula: React.FC<MatriculaProps> = () => {
   const [matricula, setMatricula] = useState<MatriculaProps[]>([]);
@@ -58,6 +59,16 @@ const ListMatricula: React.FC<MatriculaProps> = () => {
         itemsPerPage={5}
         linkAddNewRow="/matricula/add"
         scopedSlots={{
+          estadoId: (item: any) => (
+            <td className={item.estadoId ? "input-green" : ""}>
+              {item.estado.designacao}
+            </td>
+          ),
+          cursoId: (item: any) => <td>{item.curso.designacao}</td>,
+          estadoCivilId: (item: any) => <td>{item.estadoCivil.designacao}</td>,
+          generoId: (item: any) => <td>{item.genero.designacao}</td>,
+          municipioId: (item: any) => <td>{item.municipio.designacao}</td>,
+          provinciaId: (item: any) => <td>{item.provincia.designacao}</td>,
           carregamentoFotografia: (item: any) => (
             <td>
               <div
