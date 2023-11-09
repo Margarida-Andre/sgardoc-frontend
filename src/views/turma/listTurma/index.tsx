@@ -98,6 +98,12 @@ const ListTurma: React.FC<TurmaProps> = () => {
               <Moment format="DD/MM/YYYY">{item.finalAnoLectivo}</Moment>
             </td>
           ),
+          cursoId: (item: any) => <td>{item.curso.designacao}</td>,
+          turnoId: (item: any) => <td>{item.turno.designacao}</td>,
+          grauAcademicoId: (item: any) => (
+            <td>{item.grauAcademico.grau + "º"}</td>
+          ),
+
           actions: (item: any) => {
             return (
               <>

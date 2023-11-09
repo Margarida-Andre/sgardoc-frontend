@@ -20,7 +20,7 @@ const ListInscricao: React.FC<InscricaoProps> = () => {
   useEffect(() => {
     try {
       api
-        .get("/inscricoesAprovadas")
+        .get("/inscricoesPendentes")
         .then((response) => setInscricao(response.data));
     } catch (err) {
       const error = err as AxiosError;
@@ -61,7 +61,7 @@ const ListInscricao: React.FC<InscricaoProps> = () => {
         linkAddNewRow="/inscricao/add"
         scopedSlots={{
           estadoId: (item: any) => (
-            <td className={item.estadoId ? "input-green" : ""}>
+            <td className={item.estadoId ? "input-warning" : ""}>
               {item.estado.designacao}
             </td>
           ),

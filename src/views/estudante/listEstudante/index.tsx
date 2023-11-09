@@ -87,6 +87,12 @@ const ListEstudante: React.FC<EstudanteProps> = () => {
               </>
             );
           },
+          cursoId: (item: any) => <td>{item.curso.designacao}</td>,
+          turnoId: (item: any) => <td>{item.turno.designacao}</td>,
+          grauAcademicoId: (item: any) => (
+            <td>{item.grauAcademico.grau + "º"}</td>
+          ),
+          turmaId: (item: any) => <td>{item.turma.designacao}</td>,
           details: (item: any) => {
             return (
               <CCollapse show={details.includes(item.id)}>

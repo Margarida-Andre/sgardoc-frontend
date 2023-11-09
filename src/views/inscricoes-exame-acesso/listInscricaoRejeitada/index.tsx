@@ -3,7 +3,7 @@ import { PSTable } from "../../../shared/components/Table/index";
 import { CButton, CCollapse, CCardBody, CImg } from "@coreui/react";
 import { inscricaoTableFields } from "./tableSettins/fields";
 import { InscricaoProps } from "../type";
-//import { useInscricao } from "../../../hooks/useInscricao";
+import "../styles.scss";
 import UploadImg from "../../../assets/user-profile.png";
 import Moment from "react-moment";
 import { useHistory } from "react-router-dom";
@@ -20,7 +20,7 @@ const ListInscricao: React.FC<InscricaoProps> = () => {
   useEffect(() => {
     try {
       api
-        .get("/inscricoesAprovadas")
+        .get("/inscricoesRejeitadas")
         .then((response) => setInscricao(response.data));
     } catch (err) {
       const error = err as AxiosError;
@@ -61,7 +61,7 @@ const ListInscricao: React.FC<InscricaoProps> = () => {
         linkAddNewRow="/inscricao/add"
         scopedSlots={{
           estadoId: (item: any) => (
-            <td className={item.estadoId ? "input-green" : ""}>
+            <td className={item.estadoId ? "input-red" : ""}>
               {item.estado.designacao}
             </td>
           ),

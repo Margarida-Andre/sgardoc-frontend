@@ -59,6 +59,11 @@ const ListMatricula: React.FC<MatriculaProps> = () => {
         itemsPerPage={5}
         linkAddNewRow="/matricula/add"
         scopedSlots={{
+          cursoId: (item: any) => <td>{item.curso.designacao}</td>,
+          estadoCivilId: (item: any) => <td>{item.estadoCivil.designacao}</td>,
+          generoId: (item: any) => <td>{item.genero.designacao}</td>,
+          municipioId: (item: any) => <td>{item.municipio.designacao}</td>,
+          provinciaId: (item: any) => <td>{item.provincia.designacao}</td>,
           carregamentoFotografia: (item: any) => (
             <td>
               <div

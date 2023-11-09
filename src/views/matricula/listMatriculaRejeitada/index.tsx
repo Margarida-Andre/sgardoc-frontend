@@ -1,41 +1,40 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { PSTable } from "../../../shared/components/Table/index";
 import { CButton, CCollapse, CCardBody, CImg } from "@coreui/react";
 import { inscricaoTableFields } from "./tableSettins/fields";
-import { InscricaoProps } from "../type";
-//import { useInscricao } from "../../../hooks/useInscricao";
+import { MatriculaProps } from "../type";
 import UploadImg from "../../../assets/user-profile.png";
 import Moment from "react-moment";
 import { useHistory } from "react-router-dom";
 import api from "src/services/api";
-import { AxiosError } from "axios";
 import Swal from "sweetalert2";
+import { AxiosError } from "axios";
 import "../styles.scss";
 
-const ListInscricao: React.FC<InscricaoProps> = () => {
-  const [inscricao, setInscricao] = useState<InscricaoProps[]>([]);
+const ListMatricula: React.FC<MatriculaProps> = () => {
+  const [matricula, setMatricula] = useState<MatriculaProps[]>([]);
   const [details, setDetails] = useState<any[]>([]);
   const history = useHistory();
 
   useEffect(() => {
     try {
       api
-        .get("/inscricoesAprovadas")
-        .then((response) => setInscricao(response.data));
+        .get("/matriculasRejeitadas")
+        .then((response) => setMatricula(response.data));
     } catch (err) {
       const error = err as AxiosError;
       Swal.fire("Ops!", error.message, "error");
     }
   }, []);
 
-  async function update({ id }: InscricaoProps) {
-    localStorage.setItem("data-inscricao", id);
-    history.push(`/inscricao/edit/${id}`);
+  async function update({ id }: MatriculaProps) {
+    localStorage.setItem("data-matricula", id);
+    history.push(`/matricula/edit/${id}`);
   }
 
-  async function matricula({ id }: InscricaoProps) {
-    localStorage.setItem("code-inscricao", id);
-    history.push(`/matricula/add/${id}`);
+  async function createEstudante({ id }: MatriculaProps) {
+    localStorage.setItem("code-matricula", id);
+    history.push(`/estudante/add/${id}`);
   }
 
   const toggleDetails = (index: any) => {
@@ -52,16 +51,16 @@ const ListInscricao: React.FC<InscricaoProps> = () => {
   return (
     <>
       <PSTable
-        title="Inscrições de Exame de Acesso"
-        refresh={inscricao}
-        data={inscricao}
+        title="Matrículas"
+        refresh={matricula}
+        data={matricula}
         loading={false}
         fields={inscricaoTableFields}
         itemsPerPage={5}
-        linkAddNewRow="/inscricao/add"
+        linkAddNewRow="/matricula/add"
         scopedSlots={{
           estadoId: (item: any) => (
-            <td className={item.estadoId ? "input-green" : ""}>
+            <td className={item.estadoId ? "input-red" : ""}>
               {item.estado.designacao}
             </td>
           ),
@@ -78,11 +77,9 @@ const ListInscricao: React.FC<InscricaoProps> = () => {
               >
                 <CImg
                   src={
-                    item.carregamentoFotografia === "" ||
-                    item.carregamentoFotografia ===
-                      "../../../assets/user-profile.png"
-                      ? UploadImg
-                      : item.carregamentoFotografia
+                    item.carregamentoFotografia
+                      ? item.carregamentoFotografia
+                      : UploadImg
                   }
                   className="c-avatar-img"
                   alt="photo"
@@ -134,9 +131,9 @@ const ListInscricao: React.FC<InscricaoProps> = () => {
                     size="sm"
                     color="danger"
                     className="ml-1"
-                    onClick={() => matricula(item)}
+                    onClick={() => createEstudante(item)}
                   >
-                    Matricular Estudante
+                    Criar Estudante
                   </CButton>
                 </CCardBody>
 
@@ -254,7 +251,7 @@ const ListInscricao: React.FC<InscricaoProps> = () => {
                       textDecoration: "underline",
                     }}
                   >
-                    Opções de cursos escolhidos{" "}
+                    Opção de curso escolhida{" "}
                   </h6>
                   <div className="lh-base" style={{ fontSize: "0.9rem" }}>
                     <div className="text-muted">
@@ -262,19 +259,9 @@ const ListInscricao: React.FC<InscricaoProps> = () => {
                         className="text-muted"
                         style={{ fontWeight: "bold", marginRight: "5px" }}
                       >
-                        Opção 1:
+                        Curso:
                       </span>
-                      <span>{item.opcao1CursoId}</span>
-                    </div>
-
-                    <div className="text-muted">
-                      <span
-                        className="text-muted"
-                        style={{ fontWeight: "bold", marginRight: "5px" }}
-                      >
-                        Opção 2:
-                      </span>
-                      <span>{item.opcao2CursoId}</span>
+                      <span>{item.cursoId}</span>
                     </div>
                   </div>
                 </CCardBody>
@@ -352,4 +339,4 @@ const ListInscricao: React.FC<InscricaoProps> = () => {
   );
 };
 
-export default ListInscricao;
+export default ListMatricula;

@@ -42,6 +42,11 @@ export const inscricaoTableFields = [
     _style: { width: "15%", backgroundColor: "#39f", color: "white" },
   },
   {
+    key: "estadoId",
+    label: "Estado",
+    _style: { width: "15%", backgroundColor: "#39f", color: "white" },
+  },
+  {
     key: "actions",
     label: "Acções",
     _style: { width: "9%", backgroundColor: "#39f", color: "white" },

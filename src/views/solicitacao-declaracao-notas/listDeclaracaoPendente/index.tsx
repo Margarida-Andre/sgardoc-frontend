@@ -19,7 +19,7 @@ const ListInscricao: React.FC<DeclaracaoProps> = () => {
   useEffect(() => {
     try {
       api
-        .get("/declaracaoAprovadas")
+        .get("/declaracaoPendentes")
         .then((response) => setDeclaracao(response.data));
     } catch (err) {
       const error = err as AxiosError;
@@ -70,11 +70,10 @@ const ListInscricao: React.FC<DeclaracaoProps> = () => {
         linkAddNewRow=""
         scopedSlots={{
           estadoId: (item: any) => (
-            <td className={item.estadoId ? "input-green" : ""}>
-              {item.estado.designacao}
+            <td className={item.estadoId ? "input-warning" : ""}>
+              {item.estadoId}
             </td>
           ),
-
           duracaoDeclaracaoId: (item: any) => (
             <td>{item.duracaoDeclaracao.duracao}</td>
           ),
@@ -85,7 +84,6 @@ const ListInscricao: React.FC<DeclaracaoProps> = () => {
             <td>{item.efeitoDeclaracao.efeito}</td>
           ),
           tipoDeclaracaoId: (item: any) => <td>{item.tipoDeclaracao.tipo}</td>,
-
           carregamentoFotografia: (item: any) => (
             <td>
               <div
